@@ -1,0 +1,2357 @@
+				;file F:\HTMCU\MB-T006-HT66F0185\[TEST08] TEST\3key.c
+				;1	#include "init.h"
+				;2	#include "HT66F0185.h"
+				;3			
+				;4	//===========================PA端口初始化函数=========================================//
+				;5		void GPIOA_INIT(u8 GPIO_Pin,u8 GPIO_Mode,u8 wakeup,u8 GPIO_BitVal)  //u8 为无符号字符型
+				;6		{
+				_GPIOA_INIT:
+				_GPIOA_INIT:
+005B	40C0	mov     GPIO_Pin[0], a
+				;7			if ((u8)GPIO_Mode == (u8)0x01)   //pa为输入型时
+005C	573D	sdza    GPIO_Mode[0]
+005D	2863	jmp     L0063
+				;8			 {
+				;9			 	_pac|=GPIO_Pin;             //当pa引脚GPIO_Pin为输入，则置位pac ，同时设置上拉电阻
+005E	4740	mov     a, GPIO_Pin[0]
+005F	0595	orm     a, PAC
+				;10			 	_papu|=GPIO_Pin;
+0060	4740	mov     a, GPIO_Pin[0]
+0061	0596	orm     a, PAPU
+0062	2869	jmp     L0069
+				;11			 }
+				;12			else
+				;13			 {
+				;14				_pac&=(u8)(~GPIO_Pin);      //将pa设置为输出型 
+				L0063:
+0063	4140	cpla    GPIO_Pin[0]
+0064	40B1	mov     ra, a
+0065	4731	mov     a, ra
+0066	0695	andm    a, PAC
+				;15				_papu&=(u8)(~GPIO_Pin);	
+0067	4731	mov     a, ra
+0068	0696	andm    a, PAPU
+				;16			 }
+				;17			 
+				;18			if (GPIO_BitVal != RESET)       //重置
+				L0069:
+0069	50BF	sz      GPIO_BitVal[0]
+006A	286C	jmp     L006C
+006B	286F	jmp     L006F
+				;19			 {
+				;20			  	 _pa|=GPIO_Pin;
+				L006C:
+006C	4740	mov     a, GPIO_Pin[0]
+006D	0594	orm     a, PA
+006E	2873	jmp     L0073
+				;21			 }
+				;22			else
+				;23			 {
+				;24			 	 _pa&=(u8)(~GPIO_Pin);   
+				L006F:
+006F	4140	cpla    GPIO_Pin[0]
+0070	40B1	mov     ra, a
+0071	4731	mov     a, ra
+0072	0694	andm    a, PA
+				L0073:
+0073	0003	ret
+				;25	
+				;26			 }	 	
+				;27		}
+				;28	//===========================PB端口初始化函数=========================================//
+				;29		void GPIOB_INIT(u8 GPIO_Pin,u8 GPIO_Mode,u8 GPIO_BitVal)
+				;30		{
+				_GPIOB_INIT:
+				_GPIOB_INIT:
+0074	40BF	mov     GPIO_Pin[0], a
+				;31			 
+				;32			if ((u8)GPIO_Mode == (u8)0x01)
+0075	573D	sdza    GPIO_Mode[0]
+0076	287C	jmp     L007C
+				;33			 {
+				;34			 	_pbc|=GPIO_Pin;
+0077	473F	mov     a, GPIO_Pin[0]
+0078	05A6	orm     a, PBC
+				;35			 	_pbpu|=GPIO_Pin;
+0079	473F	mov     a, GPIO_Pin[0]
+007A	05A7	orm     a, PBPU
+007B	2882	jmp     L0082
+				;36			 }
+				;37			else
+				;38			 {
+				;39				_pbc&=(u8)(~GPIO_Pin);
+				L007C:
+007C	413F	cpla    GPIO_Pin[0]
+007D	40B1	mov     ra, a
+007E	4731	mov     a, ra
+007F	06A6	andm    a, PBC
+				;40				_pbpu&=(u8)(~GPIO_Pin);	
+0080	4731	mov     a, ra
+0081	06A7	andm    a, PBPU
+				;41			 }
+				;42			 
+				;43			if (GPIO_BitVal != RESET)
+				L0082:
+0082	50BE	sz      GPIO_BitVal[0]
+0083	2885	jmp     L0085
+0084	2888	jmp     L0088
+				;44			 {
+				;45			  	 _pb|=GPIO_Pin;
+				L0085:
+0085	473F	mov     a, GPIO_Pin[0]
+0086	05A5	orm     a, PB
+0087	288C	jmp     L008C
+				;46			 }
+				;47			else
+				;48			 {
+				;49			 	 _pb&=(u8)(~GPIO_Pin);
+				L0088:
+0088	413F	cpla    GPIO_Pin[0]
+0089	40B1	mov     ra, a
+008A	4731	mov     a, ra
+008B	06A5	andm    a, PB
+				L008C:
+008C	0003	ret
+				;50			 }	 	
+				;51		}
+				;52	//===========================PC端口初始化函数=========================================//
+				;53		void GPIOC_INIT(u8 GPIO_Pin,u8 GPIO_Mode,u8 GPIO_BitVal)
+				;54		{
+				_GPIOC_INIT:
+				_GPIOC_INIT:
+008D	40BF	mov     GPIO_Pin[0], a
+				;55			 
+				;56			if ((u8)GPIO_Mode == (u8)0x01)
+008E	573D	sdza    GPIO_Mode[0]
+008F	2895	jmp     L0095
+				;57			 {
+				;58			 	_pcc|=GPIO_Pin;
+0090	473F	mov     a, GPIO_Pin[0]
+0091	05C2	orm     a, PCC
+				;59			 	_pcpu|=GPIO_Pin;
+0092	473F	mov     a, GPIO_Pin[0]
+0093	05C3	orm     a, PCPU
+0094	289B	jmp     L009B
+				;60			 }
+				;61			else
+				;62			 {
+				;63				_pcc&=(u8)(~GPIO_Pin);
+				L0095:
+0095	413F	cpla    GPIO_Pin[0]
+0096	40B1	mov     ra, a
+0097	4731	mov     a, ra
+0098	06C2	andm    a, PCC
+				;64				_pcpu&=(u8)(~GPIO_Pin);	
+0099	4731	mov     a, ra
+009A	06C3	andm    a, PCPU
+				;65			 }
+				;66			 
+				;67			if (GPIO_BitVal != RESET)
+				L009B:
+009B	50BE	sz      GPIO_BitVal[0]
+009C	289E	jmp     L009E
+009D	28A1	jmp     L00A1
+				;68			 {
+				;69			  	 _pc|=GPIO_Pin;
+				L009E:
+009E	473F	mov     a, GPIO_Pin[0]
+009F	05C1	orm     a, PC
+00A0	28A5	jmp     L00A5
+				;70			 }
+				;71			else
+				;72			 {
+				;73			 	 _pc&=(u8)(~GPIO_Pin);
+				L00A1:
+00A1	413F	cpla    GPIO_Pin[0]
+00A2	40B1	mov     ra, a
+00A3	4731	mov     a, ra
+00A4	06C1	andm    a, PC
+				L00A5:
+00A5	0003	ret
+				;74			 }	 	
+				;75		}
+				;76	
+				;77	//===========================PD端口初始化函数=========================================//
+				;78		void GPIOD_INIT(u8 GPIO_Pin,u8 GPIO_Mode,u8 GPIO_BitVal)
+				;79		{
+				_GPIOD_INIT:
+				_GPIOD_INIT:
+00A6	40BF	mov     GPIO_Pin[0], a
+				;80			 
+				;81			if ((u8)GPIO_Mode == (u8)0x01)
+00A7	573D	sdza    GPIO_Mode[0]
+00A8	28AE	jmp     L00AE
+				;82			 {
+				;83			 	_pdc|=GPIO_Pin;
+00A9	473F	mov     a, GPIO_Pin[0]
+00AA	05D3	orm     a, PDC
+				;84			 	_pdpu|=GPIO_Pin;
+00AB	473F	mov     a, GPIO_Pin[0]
+00AC	05D4	orm     a, PDPU
+00AD	28B4	jmp     L00B4
+				;85			 }
+				;86			else
+				;87			 {
+				;88				_pdc&=(u8)(~GPIO_Pin);
+				L00AE:
+00AE	413F	cpla    GPIO_Pin[0]
+00AF	40B1	mov     ra, a
+00B0	4731	mov     a, ra
+00B1	06D3	andm    a, PDC
+				;89				_pdpu&=(u8)(~GPIO_Pin);	
+00B2	4731	mov     a, ra
+00B3	06D4	andm    a, PDPU
+				;90			 }
+				;91			 
+				;92			if (GPIO_BitVal != RESET)
+				L00B4:
+00B4	50BE	sz      GPIO_BitVal[0]
+00B5	28B7	jmp     L00B7
+00B6	28BA	jmp     L00BA
+				;93			 {
+				;94			  	 _pd|=GPIO_Pin;
+				L00B7:
+00B7	473F	mov     a, GPIO_Pin[0]
+00B8	05D2	orm     a, PD
+00B9	28BE	jmp     L00BE
+				;95			 }
+				;96			else
+				;97			 {
+				;98			 	 _pd&=(u8)(~GPIO_Pin);
+				L00BA:
+00BA	413F	cpla    GPIO_Pin[0]
+00BB	40B1	mov     ra, a
+00BC	4731	mov     a, ra
+00BD	06D2	andm    a, PD
+				L00BE:
+00BE	0003	ret
+				;99			 }	 	
+				;100		}
+				;101		
+				;102	//===========================数据存储区使能配置=========================================//
+				;103	void clr_ram_en(unsigned char t)
+				;104	{
+				_clr_ram_en:
+				_clr_ram_en:
+00BF	40B1	mov     ra, a
+00C0	40BD	mov     t[0], a
+				;105		_dmbp0 = t;
+00C1	0F01	mov     a, 1H
+00C2	46B1	andm    a, ra
+00C3	3404	clr     DMBP0
+00C4	4731	mov     a, ra
+00C5	0584	orm     a, BP
+				;106		_mp1 = 0x80;
+00C6	0F80	mov     a, 80H
+00C7	0083	mov     MP1, a
+				;107		while(_mp1!=0)
+00C8	28CB	jmp     L00CB
+				L00CB:
+00CB	1083	sz      MP1
+00CC	28C9	jmp     L00C9
+00CD	0003	ret
+				;108		{
+				;109			_iar1 = 0;
+				L00C9:
+00C9	1F02	clr     __iar1[0]
+				;110			_mp1++;
+00CA	1483	inc     MP1
+				;111		}
+				;112	}	
+				;113	//===========================时钟初始化函数=========================================//
+				;114		void Init_clock(void)
+				;115		{
+				;116		  	_smod=0x01;            //选择gao速时钟为系统时钟 内部8Mhz
+				_Init_clock:
+				_Init_clock:
+00CE	0F01	mov     a, 1H
+00CF	008B	mov     SMOD, a
+				;117		  	while(!_hto);          //等待高速震荡器就位
+				_L27:
+00D0	390B	snz     HTO
+00D1	28D0	jmp     _L27
+				;118		  	_wdtc=0x57;            //使能看门狗
+00D2	0F57	mov     a, 57H
+00D3	009A	mov     WDTC, a
+				;119		  	_acerl=0x00;		   //取消A/D输入
+00D4	1F44	clr     ACERL
+				;120		  	_tmpc=0x00;            //取消相关引脚用作TM 输入/ 输出，相关引脚保持原来功能
+00D5	1F19	clr     TMPC
+				;121		  	_cpc=0x08;             //比较器输出仅内部使用
+00D6	0F08	mov     a, 8H
+00D7	00BF	mov     CPC, a
+				;122		  	_integ=0x00;			//所有外部中断边沿控制除能
+00D8	1F0D	clr     INTEG
+				;123		  	_int0e=0;				//INTO中断除能
+00D9	348E	clr     INT0E
+				;124		  	_emi = 0;   			//关闭总中断
+00DA	340E	clr     EMI
+				;125	
+				;126	//=========LCD控制寄存器引脚设定为其他功能=====================//		
+				;127			_slcdc0 = 0;	
+00DB	1F4A	clr     SLCDC0
+				;128			_slcdc1 = 0;
+00DC	1F4B	clr     SLCDC1
+				;129			_slcdc2 = 0;
+00DD	1F4C	clr     SLCDC2
+				;130			_slcdc3 = 0;
+00DE	1F4D	clr     SLCDC3
+				;131			_slcdc4 = 0;
+00DF	1F4E	clr     SLCDC4
+				;132	/***********TM0************/
+				;133		  	_tm0c0=0x10;			//选择系统时钟fsys作为t1时钟fint=8MHZ	
+00E0	0F10	mov     a, 10H
+00E1	00AF	mov     TM0C0, a
+				;134		  	_tm0c1=0xc1;			//定时模式，a匹配
+00E2	0FC1	mov     a, C1H
+00E3	00B0	mov     TM0C1, a
+				;135		  	_tm0al=0xf8;			//定时初值  0x5f8=1528
+00E4	0FF8	mov     a, F8H
+00E5	00B3	mov     TM0AL, a
+				;136		  	_tm0ah=0x05;            //1528/8MHZ=191us
+00E6	0F05	mov     a, 5H
+00E7	00B4	mov     TM0AH, a
+				;137		  	_t0af=0;				//清t中断标志位
+00E8	3691	clr     T0AF
+				;138		  	_t0on=1;				//启动定时
+00E9	31AF	set     T0ON
+				;139		  	_mf0e=1;				//开多功能中断
+00EA	318E	set     MF0E
+				;140		  	_t0ae=1;	    		//开t0中断
+00EB	3091	set     T0AE
+				;141	/***********时基0************/	  
+				;142		  	_tbc=0b10000111;       //时基定时器配置使能 fTBC时钟源 LXT快速启振
+00EC	0F87	mov     a, 87H
+00ED	009B	mov     TBC, a
+				;143		  	_tb0f=0;               //时基0中断请求标志清零
+00EE	378F	clr     TB0F
+				;144		  	_tb0e=1;               //时基0中断控制位使能
+00EF	318F	set     TB0E
+				;145		  	
+				;146		  	_emi=1;		  			//开总中断
+00F0	300E	set     EMI
+				;147		  	
+				;148		  	GCC_CLRWDT();	       //清除看门狗
+00F1	0001	clr     wdt
+				;149			clr_ram_en(0);         //数据存储区选择BANK0
+00F2	0F00	mov     a, 0H
+00F3	20BF	call    _clr_ram_en
+				;150			clr_ram_en(1);         //数据存储区选择BANK1
+00F4	0F01	mov     a, 1H
+00F5	20BF	call    _clr_ram_en
+00F6	0003	ret
+				;151	
+				;152		}
+				;153	
+				;154	//===========================时基定时器中断入口=========================================//
+				;155		DEFINE_ISR(isr_TBS0, 0x1C)       //时基定时器中断函数  1s中断一次
+				;156		{	
+				@isr_TBS0_code .SECTION 'CODE'
+001C	40B4	mov     r11c, a
+001D	070A	mov     a, STATUS
+001E	40B5	mov     r21c, a
+001F	28F7	jmp     _isr_TBS0
+				;157			_tb0f=0;
+				_isr_TBS0:
+				_isr_TBS0:
+00F7	378F	clr     TB0F
+				;158			t10s++;                   //32.768 KHz 的频率下为1S一次中断
+00F8	5498	inc     t10s[0]
+				;159			if (pekjsflag)
+00F9	472E	mov     a, uF3[0]
+00FA	40BC	mov     _isr_TBS0_2, a
+00FB	7B3C	snz     _isr_TBS0_2.6
+00FC	28FE	jmp     _L29
+				;160			{	
+				;161				peking_second++;           // 计时秒钟
+00FD	54A3	inc     peking_second[0]
+				;162			}
+				;163			if (warmjsflag)
+				_L29:
+00FE	7ABC	snz     _isr_TBS0_2.5
+00FF	2901	jmp     _L30
+				;164			{	
+				;165			 	alarm_second--;           //报警秒钟
+0100	55A6	dec     alarm_second[0]
+				;166			}
+				;167			
+				;168			if(min5flag)
+				_L30:
+0101	472F	mov     a, uF2[0]
+0102	40B6	mov     ra1c, a
+0103	7BB6	snz     ra1c.7
+0104	2907	jmp     _L31
+				;169			{	
+				;170				bj_second++;
+0105	549F	inc     bj_second[0]
+0106	2909	jmp     _L32
+				;171			}
+				;172			else
+				;173			{
+				;174				bj_second=0;
+				_L31:
+0107	5F1F	clr     bj_second[0]
+				;175				bj_min=0;	
+0108	5F20	clr     bj_min[0]
+				;176			}
+				;177			
+				;178			if((keydownflag)||(keyupflag))
+				_L32:
+0109	4736	mov     a, ra1c
+010A	0E14	and     a, 14H
+010B	40B7	mov     rb1c, a
+010C	50B7	sz      rb1c
+010D	290F	jmp     _LI5
+010E	2919	jmp     _L33
+				;179			{
+				;180				if(!keyconflag)   //非连续按键标志下
+				_LI5:
+010F	7F36	sz      ra1c.6
+0110	291A	jmp     _L28
+				;181				{
+				;182					t2s++;       //秒时间计数
+0111	5497	inc     t2s[0]
+				;183					if(t2s>=2)   //如果时间等于2s
+0112	0F01	mov     a, 1H
+0113	4217	sub     a, t2s[0]
+0114	3C0A	sz      C
+0115	291A	jmp     _L28
+				;184					{	
+				;185						t2s=0;
+0116	5F17	clr     t2s[0]
+				;186						keyconflag=1;	//置连续按键标志
+0117	732F	set     uF2[0].6
+0118	291A	jmp     _L28
+				;187					}
+				;188				}
+				;189			}
+				;190			else
+				;191			{
+				;192				t2s=0;
+				_L33:
+0119	5F17	clr     t2s[0]
+				_L28:
+011A	4735	mov     a, r21c
+011B	008A	mov     STATUS, a
+011C	4734	mov     a, r11c
+011D	0004	reti
+				;193			}
+				;194				
+				;195		}
+				;196	
+				;197	//===========================定时器0中断入口=========================================//
+				;198		DEFINE_ISR(isr_TM0, 0x0c)   //定时器0中断函数  191us
+				;199		{
+				@isr_TM0_code .SECTION 'CODE'
+000C	40B8	mov     r10c, a
+000D	070A	mov     a, STATUS
+000E	40B9	mov     r20c, a
+000F	291E	jmp     _isr_TM0
+				startup_value:
+				@ROMDATA_BASE .SECTION 'CODE'
+				@dummy12 .SECTION 'CODE'
+0010	0002	halt
+0011	0080	mov     [00H], a
+				@ROMDATA_BASE .SECTION 'CODE'
+				@ROMDATA_BASE .SECTION 'CODE'
+0012	0102	cpla    __iar1[0]
+0013	0000	nop
+0014	0000	nop
+0015	0000	nop
+0016	0000	nop
+0017	0000	nop
+0018	0000	nop
+0019	0000	nop
+001A	0000	nop
+001B	0000	nop
+				;200		    _t0af=0;       //t0中断请求标志清零
+				_isr_TM0:
+				_isr_TM0:
+011E	3691	clr     T0AF
+				;201		    _emi=1;        //开总中断
+011F	300E	set     EMI
+				;202		    step++;
+0120	5495	inc     step[0]
+				;203		    step2++;
+0121	5493	inc     step2[0]
+				;204		    step3++;
+0122	5492	inc     step3[0]
+				;205		    sum++;
+0123	548E	inc     sum[0]
+0124	3D0A	sz      Z
+0125	548F	inc     sum[1]
+				;206		    sum1++;
+0126	548C	inc     sum1[0]
+0127	3D0A	sz      Z
+0128	548D	inc     sum1[1]
+				;207		    if(countmsflag)
+0129	7BB0	snz     uF1[0].7
+012A	2937	jmp     _L45
+				;208		    {
+				;209		    	tms++;
+012B	549D	inc     tms[0]
+012C	3D0A	sz      Z
+012D	549E	inc     tms[1]
+				;210		    	if(tms>=5236)
+012E	0F73	mov     a, 73H
+012F	421D	sub     a, tms[0]
+0130	0F14	mov     a, 14H
+0131	521E	sbc     a, tms[1]
+0132	3C0A	sz      C
+0133	2937	jmp     _L45
+				;211		    	{
+				;212		    		tms=0;
+0134	5F1D	clr     tms[0]
+0135	5F1E	clr     tms[1]
+				;213		    		peking_second1++;   //1s
+0136	54A2	inc     peking_second1[0]
+				;214		    	}
+				;215		    }
+				;216		    if(buzopen)  //开启蜂鸣器标志
+				_L45:
+0137	782E	snz     uF3[0].0
+0138	2944	jmp     _L47
+				;217			{
+				;218				buz=~buz;
+0139	1814	rla     PA
+013A	0E01	and     a, 1H
+013B	40BA	mov     ra0c, a
+013C	0F01	mov     a, 1H
+013D	44BA	xorm    a, ra0c
+013E	5BBA	rrc     ra0c
+013F	5F3A	clr     ra0c
+0140	5BBA	rrc     ra0c
+0141	3794	clr     PA7
+0142	473A	mov     a, ra0c
+0143	0594	orm     a, PA
+				;219			}
+				;220	
+				;221			if (step>= 52)
+				_L47:
+0144	0F33	mov     a, 33H
+0145	4215	sub     a, step[0]
+0146	3C0A	sz      C
+0147	294A	jmp     _L48
+				;222			{
+				;223				step=0;
+0148	5F15	clr     step[0]
+				;224				t10msflag=1;
+0149	7030	set     uF1[0].0
+				;225			}
+				;226			
+				;227			
+				;228			if (step2>= 105)     //105*192us=20055us=20.055ms
+				_L48:
+014A	0F68	mov     a, 68H
+014B	4213	sub     a, step2[0]
+014C	3C0A	sz      C
+014D	2950	jmp     _L49
+				;229			{
+				;230				step2=0;
+014E	5F13	clr     step2[0]
+				;231				t20msflag=1;  //置位标志
+014F	70B0	set     uF1[0].1
+				;232			}
+				;233			
+				;234			if(keyconflag)    //连续按键标志下
+				_L49:
+0150	7B2F	snz     uF2[0].6
+0151	295C	jmp     _L50
+				;235			{
+				;236				if (sum>=523)
+0152	0F0A	mov     a, AH
+0153	420E	sub     a, sum[0]
+0154	0F02	mov     a, 2H
+0155	520F	sbc     a, sum[1]
+0156	3C0A	sz      C
+0157	295D	jmp     _L51
+				;237				{	
+				;238					sum=0;
+0158	5F0E	clr     sum[0]
+0159	5F0F	clr     sum[1]
+				;239					t100msflag=1;
+015A	7130	set     uF1[0].2
+015B	295D	jmp     _L51
+				;240				}
+				;241			}
+				;242			else
+				;243			{
+				;244				t100msflag=0;	
+				_L50:
+015C	7530	clr     uF1[0].2
+				;245			}
+				;246			
+				;247			if (sum1>=2618)
+				_L51:
+015D	0F39	mov     a, 39H
+015E	420C	sub     a, sum1[0]
+015F	0F0A	mov     a, AH
+0160	520D	sbc     a, sum1[1]
+0161	3C0A	sz      C
+0162	2964	jmp     _L52
+				;248			{	
+				;249				t500msflag=1;
+0163	71B0	set     uF1[0].3
+				;250			}
+				;251			if (sum1>=5236)
+				_L52:
+0164	0F73	mov     a, 73H
+0165	420C	sub     a, sum1[0]
+0166	0F14	mov     a, 14H
+0167	520D	sbc     a, sum1[1]
+0168	3C0A	sz      C
+0169	296D	jmp     _L53
+				;252			{	
+				;253				sum1=0;
+016A	5F0C	clr     sum1[0]
+016B	5F0D	clr     sum1[1]
+				;254				t500msflag=0;
+016C	75B0	clr     uF1[0].3
+				;255			}
+				;256			
+				;257			if(step3>5)
+				_L53:
+016D	0F05	mov     a, 5H
+016E	4212	sub     a, step3[0]
+016F	3C0A	sz      C
+0170	29FC	jmp     _L43
+				;258			{
+				;259				step3=0;		
+0171	5F12	clr     step3[0]
+				;260				bitcode1=1; 						//pb0
+0172	3052	set     PD0
+				;261				bitcode2=1; 						//pb1
+0173	30D2	set     PD1
+				;262				bitcode3=1; 						//pb2
+0174	3152	set     PD2
+				;263				bitcode4=1;							//pa4
+0175	31D2	set     PD3
+				;264				a=1;								//pc2
+0176	3041	set     PC0
+				;265				b=1;								//pb6
+0177	30C1	set     PC1
+				;266				c=1;								//pc4
+0178	3141	set     PC2
+				;267				d=1;								//pc5
+0179	31C1	set     PC3
+				;268				e=1;								//pa1
+017A	3241	set     PC4
+				;269				f=1;								//pa3
+017B	32C1	set     PC5
+				;270				g=1;				 				//pa6
+017C	3341	set     PC6
+				;271				wei++;
+017D	548B	inc     wei[0]
+				;272			    switch (wei)						//wei 为uchar变量
+017E	470B	mov     a, wei[0]
+017F	40BB	mov     _isr_TM0_2, a
+0180	473B	mov     a, _isr_TM0_2
+0181	0A01	sub     a, 1H
+0182	3D0A	sz      Z
+0183	299A	jmp     _L55
+0184	0A01	sub     a, 1H
+0185	3D0A	sz      Z
+0186	29A8	jmp     _L56
+0187	473B	mov     a, _isr_TM0_2
+0188	0A03	sub     a, 3H
+0189	3D0A	sz      Z
+018A	29B6	jmp     _L57
+018B	0A01	sub     a, 1H
+018C	3D0A	sz      Z
+018D	29C4	jmp     _L58
+018E	473B	mov     a, _isr_TM0_2
+018F	0A05	sub     a, 5H
+0190	3D0A	sz      Z
+0191	29D2	jmp     _L59
+0192	0A01	sub     a, 1H
+0193	3D0A	sz      Z
+0194	29E0	jmp     _L60
+0195	473B	mov     a, _isr_TM0_2
+0196	0A07	sub     a, 7H
+0197	390A	snz     Z
+0198	29FC	jmp     _L43
+0199	29EE	jmp     _L177
+				;273			               {
+				;274			                case 1: //a
+				;275			                      {
+				;276									if(Dig1a)bitcode1=0; 
+				_L55:
+019A	782D	snz     uF4[0].0
+019B	299D	jmp     _L62
+019C	3452	clr     PD0
+				;277									if(Dig2a)bitcode2=0; 
+				_L62:
+019D	782C	snz     uF5[0].0
+019E	29A0	jmp     _L63
+019F	34D2	clr     PD1
+				;278									if(Dig3a)bitcode3=0; 
+				_L63:
+01A0	782B	snz     uF6[0].0
+01A1	29A3	jmp     _L64
+01A2	3552	clr     PD2
+				;279									if(Dig4a)bitcode4=0; 
+				_L64:
+01A3	782A	snz     uF7[0].0
+01A4	29A6	jmp     _L65
+01A5	35D2	clr     PD3
+				;280									a=0;
+				_L65:
+01A6	3441	clr     PC0
+				;281			                      }break ;
+01A7	29FC	jmp     _L43
+				;282			                case 2: //b
+				;283			                      {
+				;284									if(Dig1b)bitcode1=0; 
+				_L56:
+01A8	78AD	snz     uF4[0].1
+01A9	29AB	jmp     _L66
+01AA	3452	clr     PD0
+				;285									if(Dig2b)bitcode2=0; 
+				_L66:
+01AB	78AC	snz     uF5[0].1
+01AC	29AE	jmp     _L67
+01AD	34D2	clr     PD1
+				;286									if(Dig3b)bitcode3=0; 
+				_L67:
+01AE	78AB	snz     uF6[0].1
+01AF	29B1	jmp     _L68
+01B0	3552	clr     PD2
+				;287									if(Dig4b)bitcode4=0; 
+				_L68:
+01B1	78AA	snz     uF7[0].1
+01B2	29B4	jmp     _L69
+01B3	35D2	clr     PD3
+				;288									b=0;		
+				_L69:
+01B4	34C1	clr     PC1
+				;289			                      }break;
+01B5	29FC	jmp     _L43
+				;290			                case 3: //c
+				;291			                      {
+				;292									if(Dig1c)bitcode1=0; 
+				_L57:
+01B6	792D	snz     uF4[0].2
+01B7	29B9	jmp     _L70
+01B8	3452	clr     PD0
+				;293									if(Dig2c)bitcode2=0; 
+				_L70:
+01B9	792C	snz     uF5[0].2
+01BA	29BC	jmp     _L71
+01BB	34D2	clr     PD1
+				;294									if(Dig3c)bitcode3=0; 
+				_L71:
+01BC	792B	snz     uF6[0].2
+01BD	29BF	jmp     _L72
+01BE	3552	clr     PD2
+				;295									if(Dig4c)bitcode4=0; 
+				_L72:
+01BF	792A	snz     uF7[0].2
+01C0	29C2	jmp     _L73
+01C1	35D2	clr     PD3
+				;296									c=0;		
+				_L73:
+01C2	3541	clr     PC2
+				;297			                      } break ;
+01C3	29FC	jmp     _L43
+				;298			                case 4: //d
+				;299			                      {
+				;300									if(Dig1d)bitcode1=0; 
+				_L58:
+01C4	79AD	snz     uF4[0].3
+01C5	29C7	jmp     _L74
+01C6	3452	clr     PD0
+				;301									if(Dig2d)bitcode2=0; 
+				_L74:
+01C7	79AC	snz     uF5[0].3
+01C8	29CA	jmp     _L75
+01C9	34D2	clr     PD1
+				;302									if(Dig3d)bitcode3=0; 
+				_L75:
+01CA	79AB	snz     uF6[0].3
+01CB	29CD	jmp     _L76
+01CC	3552	clr     PD2
+				;303									if(Dig4d)bitcode4=0; 
+				_L76:
+01CD	79AA	snz     uF7[0].3
+01CE	29D0	jmp     _L77
+01CF	35D2	clr     PD3
+				;304		
+				;305									d=0;		
+				_L77:
+01D0	35C1	clr     PC3
+				;306			                      }break ;
+01D1	29FC	jmp     _L43
+				;307			                case 5: //e
+				;308			                      {
+				;309									if(Dig1e)bitcode1=0; 
+				_L59:
+01D2	7A2D	snz     uF4[0].4
+01D3	29D5	jmp     _L78
+01D4	3452	clr     PD0
+				;310									if(Dig2e)bitcode2=0; 
+				_L78:
+01D5	7A2C	snz     uF5[0].4
+01D6	29D8	jmp     _L79
+01D7	34D2	clr     PD1
+				;311									if(Dig3e)bitcode3=0; 
+				_L79:
+01D8	7A2B	snz     uF6[0].4
+01D9	29DB	jmp     _L80
+01DA	3552	clr     PD2
+				;312									if(Dig4e)bitcode4=0; 
+				_L80:
+01DB	7A2A	snz     uF7[0].4
+01DC	29DE	jmp     _L81
+01DD	35D2	clr     PD3
+				;313	
+				;314									e=0;	
+				_L81:
+01DE	3641	clr     PC4
+				;315			                      }break ;
+01DF	29FC	jmp     _L43
+				;316			               case 6: //f
+				;317			                      {
+				;318									if(Dig1f)bitcode1=0; 
+				_L60:
+01E0	7AAD	snz     uF4[0].5
+01E1	29E3	jmp     _L82
+01E2	3452	clr     PD0
+				;319									if(Dig2f)bitcode2=0; 
+				_L82:
+01E3	7AAC	snz     uF5[0].5
+01E4	29E6	jmp     _L83
+01E5	34D2	clr     PD1
+				;320									if(Dig3f)bitcode3=0; 
+				_L83:
+01E6	7AAB	snz     uF6[0].5
+01E7	29E9	jmp     _L84
+01E8	3552	clr     PD2
+				;321									if(Dig4f)bitcode4=0; 
+				_L84:
+01E9	7AAA	snz     uF7[0].5
+01EA	29EC	jmp     _L85
+01EB	35D2	clr     PD3
+				;322	
+				;323									f=0;		
+				_L85:
+01EC	36C1	clr     PC5
+				;324			                      }break ;
+01ED	29FC	jmp     _L43
+				;325			               case 7: //g
+				;326			                      {
+				;327									if(Dig1g)bitcode1=0; 
+				_L177:
+01EE	7B2D	snz     uF4[0].6
+01EF	29F1	jmp     _L86
+01F0	3452	clr     PD0
+				;328									if(Dig2g)bitcode2=0; 
+				_L86:
+01F1	7B2C	snz     uF5[0].6
+01F2	29F4	jmp     _L87
+01F3	34D2	clr     PD1
+				;329									if(Dig3g)bitcode3=0; 
+				_L87:
+01F4	7B2B	snz     uF6[0].6
+01F5	29F7	jmp     _L88
+01F6	3552	clr     PD2
+				;330									if(Dig4g)bitcode4=0; 
+				_L88:
+01F7	7B2A	snz     uF7[0].6
+01F8	29FA	jmp     _L89
+01F9	35D2	clr     PD3
+				;331									wei=0;
+				_L89:
+01FA	5F0B	clr     wei[0]
+				;332									g=0;	
+01FB	3741	clr     PC6
+				_L43:
+01FC	4739	mov     a, r20c
+01FD	008A	mov     STATUS, a
+01FE	4738	mov     a, r10c
+01FF	0004	reti
+				;333			                      }break ;
+				;334			               }
+				;335			}			
+				;336		}
+				;337	//===========================蜂鸣器工作=========================================//
+				;338		void buz_beep (void)
+				;339		{	
+				;340			if(t10msflag)   //10ms到了
+				_buz_beep:
+				_buz_beep:
+0200	7830	snz     uF1[0].0
+0201	2A3E	jmp     _L178
+				;341			{
+				;342			  t10msflag=0;
+0202	7430	clr     uF1[0].0
+				;343			  if (buzopen)  //开启蜂鸣器标志状态下
+0203	782E	snz     uF3[0].0
+0204	2A17	jmp     _L182
+				;344			     {
+				;345				      bBbSound--;													
+0205	5502	deca    bBbSound[0]
+0206	40B1	mov     ra, a
+0207	4731	mov     a, ra
+0208	4082	mov     bBbSound[0], a
+				;346				      if(bBbSound<=1)
+0209	0F01	mov     a, 1H
+020A	4231	sub     a, ra
+020B	1185	swap    ACC
+020C	040A	xor     a, STATUS
+020D	3D85	sz      ACC.3
+020E	2A17	jmp     _L182
+				;347				      {
+				;348				      	buzopen=0;
+020F	742E	clr     uF3[0].0
+				;349				      	if(bbRam==1)
+0210	5706	sdza    bbRam[0]
+0211	2A15	jmp     _L184
+				;350				      	{
+				;351				      		bBbSound=bbTime;	
+0212	4704	mov     a, bbTime[0]
+0213	4082	mov     bBbSound[0], a
+0214	2A17	jmp     _L182
+				;352				      	}
+				;353				      	else
+				;354				      	{
+				;355				      		bBbSound=bbCnt;
+				_L184:
+0215	4703	mov     a, bbCnt[0]
+0216	4082	mov     bBbSound[0], a
+				;356				      	}
+				;357				      }	
+				;358			     }	
+				;359				
+				;360			  if ((!buzopen)&&(bbRam==2))						
+				_L182:
+0217	7C2E	sz      uF3[0].0
+0218	2A2C	jmp     _L186
+0219	4706	mov     a, bbRam[0]
+021A	0A02	sub     a, 2H
+021B	390A	snz     Z
+021C	2A2C	jmp     _L186
+				;361			     {
+				;362			     	 bBbSound--;	
+021D	5502	deca    bBbSound[0]
+021E	40B1	mov     ra, a
+021F	4731	mov     a, ra
+0220	4082	mov     bBbSound[0], a
+				;363			    	 if(bBbSound<=1)
+0221	0F01	mov     a, 1H
+0222	4231	sub     a, ra
+0223	1185	swap    ACC
+0224	040A	xor     a, STATUS
+0225	3D85	sz      ACC.3
+0226	2A2C	jmp     _L186
+				;364			    	 {
+				;365			    	 	buzopen=1;
+0227	702E	set     uF3[0].0
+				;366			    	 	bbRam--;
+0228	0F01	mov     a, 1H
+0229	4086	mov     bbRam[0], a
+				;367			    	 	bBbSound=bbTime;
+022A	4704	mov     a, bbTime[0]
+022B	4082	mov     bBbSound[0], a
+				;368			    	 }			
+				;369			     }
+				;370			     if ((!buzopen)&&(bbRam==1))						
+				_L186:
+022C	7C2E	sz      uF3[0].0
+022D	2A3E	jmp     _L178
+022E	5706	sdza    bbRam[0]
+022F	2A3E	jmp     _L178
+				;371			     {
+				;372			     	 bBbSound--;	
+0230	5502	deca    bBbSound[0]
+0231	40B1	mov     ra, a
+0232	4731	mov     a, ra
+0233	4082	mov     bBbSound[0], a
+				;373			    	 if(bBbSound<=1)
+0234	0F01	mov     a, 1H
+0235	4231	sub     a, ra
+0236	1185	swap    ACC
+0237	040A	xor     a, STATUS
+0238	3D85	sz      ACC.3
+0239	2A3E	jmp     _L178
+				;374			    	 {
+				;375			    	 	buzopen=1;
+023A	702E	set     uF3[0].0
+				;376			    	 	bbRam--;
+023B	5F06	clr     bbRam[0]
+				;377			    	 	bBbSound=bbTime;
+023C	4704	mov     a, bbTime[0]
+023D	4082	mov     bBbSound[0], a
+				_L178:
+023E	0003	ret
+				;378			    	 }			
+				;379			     }
+				;380			      
+				;381			 }     	
+				;382		}
+				;383	//===========================按键扫描=========================================//
+				;384		void key_scal(void)
+				;385		{
+				;386			if (!t20msflag)        //20ms标志未到 
+				_key_scal:
+				_key_scal:
+023F	78B0	snz     uF1[0].1
+0240	2A73	jmp     _L189
+				;387			 return ;              //退出函数
+				;388			else
+				;389			  {
+				;390			  	t20msflag=0;     //否则清除标志
+0241	74B0	clr     uF1[0].1
+				;391			  	if((keyup)&&(keyset)&&(keydown))		//无按键按下高电平
+0242	3925	snz     PB2
+0243	2A50	jmp     _L192
+0244	39A5	snz     PB3
+0245	2A50	jmp     _L192
+0246	3A25	snz     PB4
+0247	2A50	jmp     _L192
+				;392			  	 {
+				;393			  	 	keystep=0;	        //按键步数20ms一步
+0248	5F11	clr     keystep[0]
+				;394			  	 	keyconflag=0;       //连续按键标志
+0249	772F	clr     uF2[0].6
+				;395			  	 	keynullflag=1;      //无按键按下标志位
+024A	702F	set     uF2[0].0
+				;396			  	 	keysetflag=0;		    //按键设定标志	  	 	  
+024B	75AF	clr     uF2[0].3
+				;397				  	keydownflag=0;      //向下按键标志
+024C	752F	clr     uF2[0].2
+				;398				  	keyupflag=0;        //向上按键标志
+024D	762F	clr     uF2[0].4
+				;399				   	keysstflag=0;       //设定按键下标志
+024E	74AF	clr     uF2[0].1
+024F	2A6A	jmp     _L193
+				;400			  	 }
+				;401			  	else	         //否则有按键按下									
+				;402			  	 {
+				;403			  	 	keystep++;
+				_L192:
+0250	5491	inc     keystep[0]
+				;404			  	 	if (keystep>5)    //20ms*5=100ms到了
+0251	0F05	mov     a, 5H
+0252	4211	sub     a, keystep[0]
+0253	3C0A	sz      C
+0254	2A6A	jmp     _L193
+				;405			  	 	{
+				;406				  	 	if((keyup)&&(keyset)&&(!keydown))
+0255	3925	snz     PB2
+0256	2A5C	jmp     _L195
+0257	39A5	snz     PB3
+0258	2A5C	jmp     _L195
+0259	3E25	sz      PB4
+025A	2A5C	jmp     _L195
+				;407				  	 	{
+				;408				  	 		keydownflag=1;		//down按下
+025B	712F	set     uF2[0].2
+				;409				  	 	}
+				;410				  	 	if((!keyup)&&(keyset)&&(keydown))
+				_L195:
+025C	3D25	sz      PB2
+025D	2A63	jmp     _L196
+025E	39A5	snz     PB3
+025F	2A63	jmp     _L196
+0260	3A25	snz     PB4
+0261	2A63	jmp     _L196
+				;411				  	 	{
+				;412				  	 		keyupflag=1;		//up按下
+0262	722F	set     uF2[0].4
+				;413				  	 	}
+				;414				  	 	if((keyup)&&(!keyset)&&(keydown))
+				_L196:
+0263	3925	snz     PB2
+0264	2A6A	jmp     _L193
+0265	3DA5	sz      PB3
+0266	2A6A	jmp     _L193
+0267	3A25	snz     PB4
+0268	2A6A	jmp     _L193
+				;415				  	 	{
+				;416				  	 		keysetflag=1;	    //set按下
+0269	71AF	set     uF2[0].3
+				;417				  	 	}
+				;418			  	 	}
+				;419			  	 }
+				;420	
+				;421			  }	
+				;422	
+				;423			 if ((keysetflag)&&(keynullflag))        //设置按键按下
+				_L193:
+026A	472F	mov     a, uF2[0]
+026B	0E09	and     a, 9H
+026C	40B1	mov     ra, a
+026D	4731	mov     a, ra
+026E	0A09	sub     a, 9H
+026F	390A	snz     Z
+0270	2A73	jmp     _L189
+				;424			  {	
+				;425			  	keynullflag=0;                   //有按键按下
+0271	742F	clr     uF2[0].0
+				;426			 	   keysstflag=1;                    //设定标志下
+0272	70AF	set     uF2[0].1
+				_L189:
+0273	0003	ret
+				;427			  }	
+				;428		}
+				;429	//===========================时间设置=========================================//
+				;430		void time_set(void)
+				;431		{
+				;432			if ((keydownflag)&&(keynullflag))                          //向下按键操作
+				;433			{	
+				;434				keydownflag=0;
+				;435				keynullflag=0;
+				;436				if (data==2)            //控制时钟分钟
+				;437				{
+				;438					peking_min--;
+				;439					peking_second=0;
+				;440				}
+				;441				if (data==1)           //控制时钟小时
+				;442				{
+				;443					peking_hour--;   
+				;444					peking_second=0;
+				;445				}
+				;446				
+				;447				if (data==4)          //控制报警分钟
+				;448				{
+				;449					alarm_min--;
+				;450					alarm_second=59;
+				;451				}
+				;452				if (data==3)         //控制报警小时
+				;453				{
+				;454					alarm_hour--;
+				;455					alarm_second=59;
+				;456				}
+				;457			}
+				;458			if ((keyupflag)&&(keynullflag))        //向上按键操作
+				;459			{	
+				;460				keyupflag=0;
+				;461				keynullflag=0;
+				;462				if (data==2)
+				;463				{
+				;464					peking_min++;
+				;465					peking_second=0;
+				;466				}
+				;467				if (data==1)
+				;468				{
+				;469					peking_hour++;
+				;470					peking_second=0;
+				;471				}
+				;472				
+				;473				if (data==4)
+				;474				{
+				;475					alarm_min++;
+				;476					alarm_second=59;
+				;477				}
+				;478				if (data==3)
+				;479				{
+				;480					alarm_hour++;
+				;481					alarm_second=59;
+				;482				}
+				;483			}
+				;484					  
+				;485			if ((keyconflag) && (t100msflag))        //连续设置按键操作  100ms加减一次
+				;486		    {
+				;487		       	  t100msflag=0;
+				;488		   	      if (data==2)        //北京分钟调整
+				;489		   	         {
+				;490		   	      		if (keydownflag)
+				;491		   	      		{
+				;492		   	      			peking_min--;
+				;493		   	      			peking_second=0;
+				;494		   	      		}  //长按+，-，快速设置时间
+				;495		   	      		if (keyupflag)
+				;496		   	      		{
+				;497		   	      			peking_min++;
+				;498		   	      			peking_second=0;
+				;499		   	      		}
+				;500		   	         }
+				;501		   	      if (data==4)      //报警闹钟分钟调整
+				;502		   	         { 
+				;503		   	         	if (keydownflag)
+				;504		   	         	{
+				;505		   	         		alarm_min--;
+				;506		   	         		alarm_second=59;
+				;507		   	         	}
+				;508		   	         	if (keyupflag)
+				;509		   	         	{
+				;510		   	         		alarm_min++;
+				;511		   	         		alarm_second=59;
+				;512		   	         	}
+				;513		   	         }
+				;514		   	       if (data==1)      //北京小时调整
+				;515		   	         {
+				;516		   	      		if (keydownflag)
+				;517		   	      		{
+				;518		   	      			peking_hour--;
+				;519		   	      			peking_second=0;
+				;520		   	      		}
+				;521		   	      		if (keyupflag)
+				;522		   	      		{
+				;523		   	      			peking_hour++;
+				;524		   	      			peking_second=0;
+				;525		   	      		}
+				;526		   	         }
+				;527		   	      if (data==3)         //报警小时调整
+				;528		   	         { 
+				;529		   	         	if (keydownflag)
+				;530		   	         	{
+				;531		   	         		alarm_hour--;
+				;532		   	         		alarm_second=59;
+				;533		   	         	}
+				;534		   	         	if (keyupflag)
+				;535		   	         	{
+				;536		   	         		alarm_hour++;
+				;537		   	         		alarm_second=59;
+				;538		   	         	}
+				;539		   	         }
+				;540			   	
+				;541		    }
+				;542	    		if (alarm_second<0)
+				;543			      {
+				;544			     	alarm_second=59;
+				;545			     	if(data!=3)
+				;546			     	alarm_min--;
+				;547			      }	
+				;548		     	if (alarm_min<0)
+				;549		     	  {
+				;550		     	  	alarm_min=59;
+				;551		     	  	if(data!=4)
+				;552		     	  	alarm_hour--;
+				;553		     	  }	
+				;554	     	  	 if (alarm_hour<0)
+				;555	     	  	 alarm_hour=23;
+				;556			     	  
+				;557			      
+				;558			 	 if (alarm_second>59)
+				;559			      {
+				;560			     	alarm_second=0;
+				;561	
+				;562			      }
+				;563		     	 if (alarm_min>59)
+				;564		     	  {
+				;565		     	  	alarm_min=0;
+				;566	
+				;567		     	  }
+				;568	     	  	 if (alarm_hour>23)
+				;569	     	  	 {
+				;570	     	  	 	alarm_hour=0;
+				;571	     	  	 }
+				;572		
+				;573			     if (peking_second>59)
+				;574				   {
+				;575				   	  peking_second=0;
+				;576				   	  peking_min++;
+				;577				   }
+				;578				  if (peking_min>59)
+				;579				   {
+				;580				   	peking_min=0;
+				;581				   	if(data!=2)
+				;582				   	  {	
+				;583				   	  	peking_hour++;
+				;584				   	  }
+				;585				   }
+				;586				  if (peking_hour>=24)
+				;587				  {
+				;588				  	peking_hour=0;
+				;589				  }
+				;590			
+				;591			   	  if (peking_second<0)
+				;592				   {
+				;593				   	  	peking_second=59;
+				;594				   }
+				;595				  if (peking_min<0)
+				;596				   {
+				;597				   		peking_min=59;
+				;598				   }
+				;599				   if (peking_hour<0)
+				;600				   {
+				;601				   		peking_hour=23;
+				;602				   }
+				;603				   
+				;604				   if(bj_second>59)
+				;605				   {	
+				;606				   		bj_second=0;
+				;607				   		bj_min++;
+				;608				   		if(bj_min>=1)
+				;609				   		{	
+				;610				   			bj_second=0;
+				;611				   			bj_min=0;
+				;612				   			min5flag=0;	
+				;613				   			data=0;
+				;614				   		}
+				;615				   }
+				;616		  	
+				;617		}	
+				;618	//===========================过程处理=========================================//	
+				;619		void process_set(void)
+				;620		{
+				;621			if (keysstflag)     //设定键按下标志
+				;622			 {
+				;623				keysstflag=0;
+				;624				data++;        //闪烁选择自加1
+				;625				if((data==5)&&(!alarm_hour)&&(!alarm_min))   //如果等于5并且闹铃小时和闹铃分钟都为0状态下
+				;626				{
+				;627					data=0;	     //等于0
+				;628				}
+				;629			 }
+				;630		 	if ((!alarm_hour)&&(!alarm_min))       //闹铃报警小时和分钟都为0的情况下             
+				;631			  {
+				;632			  		if (data>=5) 
+				;633					{	
+				;634			          	min5flag=1;   
+				;635			          	warmjsflag=0;
+				;636			          	alarm_second=0;   //闹铃秒清零
+				;637			          	if(min5flag==1)
+				;638			          	{	
+				;639			          		if((!bbRam)&&(!buzopen))  //bbRam等于0并且蜂鸣器非开启状态下
+				;640			          		{
+				;641						 	      	BBB(2,20,1);    //进入蜂鸣器BBB工作状态下
+				;642			          		}
+				;643			          	}
+				;644					 	if((keyupflag)||(keydownflag)||(data==6))   //如果向上或者向下按键或者data等于6
+				;645					  	 {	
+				;646						  	min5flag=0;    //清除蜂鸣器报警
+				;647						 		data=0; 
+				;648						 		buzopen=0;
+				;649								bbRam=0;
+				;650					  	 }  
+				;651	      		if (t500msflag)         //500ms到了  刷新一次数码管值
+				;652	      	 	 {
+				;653								num1=alarm_hour/10;
+				;654								num2=alarm_hour%10;
+				;655								num3=alarm_min/10;
+				;656								num4=alarm_min%10;
+				;657	    	  	 }	
+				;658	    		 else                //数码管熄灭
+				;659	      	 {
+				;660							num1=16;   
+				;661							num2=16;
+				;662							num3=16;
+				;663							num4=16;				
+				;664	      	 }	
+				;665					}
+				;666			  }	
+				;667			else           //否则闹铃报警时间不为0模式下  为0说明没有设定倒计时报警
+				;668			  {
+				;669			  		if(data>5)
+				;670			  		{
+				;671			  			data=1;
+				;672			  		}
+				;673					if (data==5)          //启动倒计时报警功能
+				;674					{
+				;675					 warmjsflag=1;
+				;676					 pekjsflag=1;
+				;677					 num1=alarm_hour/10;
+				;678	      	      	 num2=alarm_hour%10;
+				;679	      	      	 num3=alarm_min/10;
+				;680	      	      	 num4=alarm_min%10;								
+				;681					}
+				;682					else     //data不等于5
+				;683					{  
+				;684						pekjsflag=0;
+				;685						warmjsflag=0;
+				;686						alarm_second=59;
+				;687						peking_second=0;
+				;688					}
+				;689			  }	
+				;690			  if(keynullflag)		//无健按下10退出
+				;691			   {
+				;692			     if(t10s>10)		//大于60s时间									
+				;693			      {	
+				;694			      	t10s=0;
+				;695			      	if ((data!=0)&&(data!=5))    //
+				;696			      	  {
+				;697			      	  	if((!alarm_hour)&&(!alarm_min))
+				;698			      	  		{
+				;699			      	  			data=0;
+				;700			      	  		}
+				;701			      	  		else
+				;702			      	  		{
+				;703			      	  			data=5;	
+				;704			      	  		}
+				;705			      	  }
+				;706			      }
+				;707			   }
+				;708			   else
+				;709			   {
+				;710			   	t10s=0;
+				;711			   }
+				;712		    switch(data)
+				;713		          {
+				;714		        
+				;715		          	case 0 :                          //data为0 北京时间走时显示     
+				;716		          	      {
+				;717		          	      	pekjsflag=1;
+				;718		          	      	num1=peking_hour/10;
+				;719		          	      	num2=peking_hour%10;
+				;720		          	      	num3=peking_min/10;
+				;721		          	      	num4=peking_min%10;         	      	
+				;722		          	      }break;
+				;723		          	
+				;724		           case 1 :                                           //data为1 设置北京“时”
+				;725		          	      {	
+				;726		          	      	pekjsflag=0;
+				;727		          	      	peking_second=0;
+				;728		          	      	if ((t500msflag)&&(!keyconflag))
+				;729		          	      	  {
+				;730			          	      	num1=16;
+				;731			          	      	num2=16;
+				;732		          	      	  }
+				;733		          	      
+				;734		          	      	else
+				;735		          	      	  {
+				;736			          	      	num1=peking_hour/10;
+				;737			          	      	num2=peking_hour%10;
+				;738		          	      	  }
+				;739	
+				;740		          	      	num3=peking_min/10;
+				;741		          	      	num4=peking_min%10;
+				;742		          	      }break;		          	
+				;743		          	case 2 :												//data为2 设置北京“分”
+				;744		          	      {
+				;745		          	      	num1=peking_hour/10;
+				;746		          	      	num2=peking_hour%10;
+				;747		          	      	if ((t500msflag)&&(!keyconflag))
+				;748		          	      	  {
+				;749			          	      	num3=16;
+				;750			          	      	num4=16;	          	      	
+				;751		          	      	  }
+				;752		          	      	 else
+				;753		          	      	  {
+				;754		          	      	  	num3=peking_min/10;
+				;755			          	      	num4=peking_min%10;
+				;756		          	      	  	
+				;757		          	      	  }
+				;758		          	      }break;
+				;759		          	case 3 :							                	//data为3 设置闹铃“时”			
+				;760		          	      {	
+				;761		          	      	
+				;762		          	      	if ((t500msflag)&&(!keyconflag))
+				;763		          	      	  {
+				;764			          	      	num1=16;
+				;765			          	      	num2=16;
+				;766		          	      	  }
+				;767		          	      	else 
+				;768		          	      	  {
+				;769			          	      	num1=alarm_hour/10;
+				;770			          	      	num2=alarm_hour%10;
+				;771		          	      	  }
+				;772		          	      	 num3=alarm_min/10;
+				;773		          	      	 num4=alarm_min%10;	
+				;774		          	      }break;	          	
+				;775		          	case 4 :                                             //data为4 设置闹铃“分”
+				;776		          	      {	
+				;777		          	      	num1=alarm_hour/10;
+				;778		          	      	num2=alarm_hour%10;
+				;779		          	      	if ((t500msflag)&&(!keyconflag))
+				;780		          	      	  {
+				;781			          	      	num3=16;
+				;782			          	      	num4=16;        	      	
+				;783		          	      	  }
+				;784		          	      	 else
+				;785		          	      	  {
+				;786		          	      	  	num3=alarm_min/10;
+				;787			          	      	num4=alarm_min%10;
+				;788		          	      	  	
+				;789		          	      	  }  
+				;790		          	      }break;
+				;791	
+				;792		          	default : break;
+				;793		          }
+				;794			
+				;795		     
+				;796	    }
+				;797	//===========================测试模式=========================================//			
+				;798		void test_mode(void)
+				;799		{
+				;800			 	tms=0;
+				_test_mode:
+				_test_mode:
+0274	5F1D	clr     tms[0]
+0275	5F1E	clr     tms[1]
+				;801			 	peking_second1=0;
+0276	5F22	clr     peking_second1[0]
+				;802			 	  while(1)
+				;803			  		{
+				;804			  			GCC_CLRWDT();
+				_L380:
+0277	0001	clr     wdt
+				;805			  			key_scal();
+0278	223F	call    _key_scal
+				;806			  			buz_beep();
+0279	2200	call    _buz_beep
+				;807						if (peking_second1>59)    
+027A	0F3B	mov     a, 3BH
+027B	4222	sub     a, peking_second1[0]
+027C	1185	swap    ACC
+027D	040A	xor     a, STATUS
+027E	3985	snz     ACC.3
+027F	2A89	jmp     _L368
+				;808						{
+				;809							peking_second1=0;
+0280	5F22	clr     peking_second1[0]
+				;810							peking_min1++;
+0281	54A1	inc     peking_min1[0]
+				;811						
+				;812							if (peking_min1>59)
+0282	0F3B	mov     a, 3BH
+0283	4221	sub     a, peking_min1[0]
+0284	1185	swap    ACC
+0285	040A	xor     a, STATUS
+0286	3985	snz     ACC.3
+0287	2A89	jmp     _L368
+				;813							{
+				;814								peking_min1=0;
+0288	5F21	clr     peking_min1[0]
+				;815							}
+				;816						}
+				;817			  			if (keysstflag)      
+				_L368:
+0289	78AF	snz     uF2[0].1
+028A	2A99	jmp     _L371
+				;818			  			 {
+				;819			  			 	keysstflag=0;
+028B	74AF	clr     uF2[0].1
+				;820			  			 	data++;                 
+028C	5496	inc     data[0]
+				;821			  			 	if (data>4)
+028D	0F04	mov     a, 4H
+028E	4216	sub     a, data[0]
+028F	3C0A	sz      C
+0290	2A93	jmp     _L372
+				;822			  			 	{
+				;823			  			 		data=1;        //按set3次一循环
+0291	0F01	mov     a, 1H
+0292	4096	mov     data[0], a
+				;824			  			 	}
+				;825			  			 	if (data==3)
+				_L372:
+0293	4716	mov     a, data[0]
+0294	0A03	sub     a, 3H
+0295	390A	snz     Z
+0296	2A99	jmp     _L371
+				;826			  			 	{	
+				;827			  			 		value=peking_second1;
+0297	4722	mov     a, peking_second1[0]
+0298	4090	mov     value[0], a
+				;828			  			 	}
+				;829			  			 	
+				;830			  			 }
+				;831			  			switch(data)
+				_L371:
+0299	4716	mov     a, data[0]
+029A	40C5	mov     _test_mode_2, a
+029B	4745	mov     a, _test_mode_2
+029C	0A01	sub     a, 1H
+029D	3D0A	sz      Z
+029E	2AD1	jmp     _L375
+029F	0A01	sub     a, 1H
+02A0	3D0A	sz      Z
+02A1	2B1B	jmp     _L376
+02A2	4745	mov     a, _test_mode_2
+02A3	0A03	sub     a, 3H
+02A4	3D0A	sz      Z
+02A5	2B2B	jmp     _L377
+02A6	4745	mov     a, _test_mode_2
+02A7	0A04	sub     a, 4H
+02A8	390A	snz     Z
+02A9	2B4A	jmp     _L374
+				;832			  			      {
+				;833			  			      	case 1 :
+				;834			  			      	       {
+				;835			  			      	       	countmsflag=1;
+				_L375:
+02D1	73B0	set     uF1[0].7
+				;836			  			      	       	num1=peking_second1/10;
+02D2	4722	mov     a, peking_second1[0]
+02D3	40BD	mov     t, a
+02D4	0F0A	mov     a, AH
+02D5	40BE	mov     GPIO_BitVal, a
+02D6	23A8	call    L03A8
+02D7	473D	mov     a, t
+02D8	4081	mov     num1[0], a
+				;837			  			      	       	num2=peking_second1%10;
+02D9	4722	mov     a, peking_second1[0]
+02DA	40BD	mov     t, a
+02DB	0F0A	mov     a, AH
+02DC	40BE	mov     GPIO_BitVal, a
+02DD	23A8	call    L03A8
+02DE	473F	mov     a, GPIO_Pin
+02DF	4080	mov     num2[0], a
+				;838			  			      	       	num3=tms/524;
+02E0	5F43	clr     GPIO_Pin[3]
+02E1	471D	mov     a, tms[0]
+02E2	40BD	mov     t, a
+02E3	471E	mov     a, tms[1]
+02E4	40BE	mov     GPIO_BitVal, a
+02E5	0F0C	mov     a, CH
+02E6	40BF	mov     GPIO_Pin, a
+02E7	0F02	mov     a, 2H
+02E8	40C0	mov     GPIO_Pin, a
+02E9	23CD	call    L03CD
+02EA	473D	mov     a, t
+02EB	4089	mov     num3[0], a
+02EC	473E	mov     a, GPIO_BitVal
+02ED	408A	mov     num3[1], a
+				;839			  			      	       	num4=(tms-(tms/524)*524)/52;
+02EE	5F43	clr     GPIO_Pin[3]
+02EF	471D	mov     a, tms[0]
+02F0	40BD	mov     t, a
+02F1	471E	mov     a, tms[1]
+02F2	40BE	mov     GPIO_BitVal, a
+02F3	0F0C	mov     a, CH
+02F4	40BF	mov     GPIO_Pin, a
+02F5	0F02	mov     a, 2H
+02F6	40C0	mov     GPIO_Pin, a
+02F7	23CD	call    L03CD
+02F8	473D	mov     a, t
+02F9	40B2	mov     rb, a
+02FA	473E	mov     a, GPIO_BitVal
+02FB	40B3	mov     rc, a
+02FC	4732	mov     a, rb
+02FD	40BD	mov     t, a
+02FE	4733	mov     a, rc
+02FF	40BE	mov     GPIO_BitVal, a
+0300	0F0C	mov     a, CH
+0301	40BF	mov     GPIO_Pin, a
+0302	0F02	mov     a, 2H
+0303	40C0	mov     GPIO_Pin, a
+0304	23F2	call    L03F2
+0305	4741	mov     a, GPIO_Pin[1]
+0306	40B2	mov     rb, a
+0307	4742	mov     a, GPIO_Pin[2]
+0308	40B3	mov     rc, a
+0309	471D	mov     a, tms[0]
+030A	42B2	subm    a, rb
+030B	471E	mov     a, tms[1]
+030C	52B3	sbcm    a, rc
+030D	5F43	clr     GPIO_Pin[3]
+030E	4732	mov     a, rb
+030F	40BD	mov     t, a
+0310	4733	mov     a, rc
+0311	40BE	mov     GPIO_BitVal, a
+0312	0F34	mov     a, 34H
+0313	40BF	mov     GPIO_Pin, a
+0314	5F40	clr     GPIO_Pin
+0315	23CD	call    L03CD
+0316	473D	mov     a, t
+0317	4087	mov     num4[0], a
+0318	473E	mov     a, GPIO_BitVal
+0319	4088	mov     num4[1], a
+				;840			  			      	       }break;
+031A	2B4A	jmp     _L374
+				;841			  			      	       
+				;842			  			        case 2 :
+				;843			  			        	   {
+				;844										  	num1=peking_second1%10;
+				_L376:
+031B	4722	mov     a, peking_second1[0]
+031C	40BD	mov     t, a
+031D	0F0A	mov     a, AH
+031E	40BE	mov     GPIO_BitVal, a
+031F	23A8	call    L03A8
+0320	473F	mov     a, GPIO_Pin
+0321	4081	mov     num1[0], a
+				;845										  	num2=num1;
+0322	4701	mov     a, num1[0]
+0323	4080	mov     num2[0], a
+				;846										  	num3=num1;
+0324	4701	mov     a, num1[0]
+0325	4089	mov     num3[0], a
+0326	5F0A	clr     num3[1]
+				;847										  	num4=num1;
+0327	4701	mov     a, num1[0]
+0328	4087	mov     num4[0], a
+0329	5F08	clr     num4[1]
+				;848			  			        	   }break;
+032A	2B4A	jmp     _L374
+				;849			  			      	case 3 :
+				;850			  			      	       {	
+				;851			  			      	       		num1=value%10;
+				_L377:
+032B	4710	mov     a, value[0]
+032C	40BD	mov     t, a
+032D	0F0A	mov     a, AH
+032E	40BE	mov     GPIO_BitVal, a
+032F	23A8	call    L03A8
+0330	473F	mov     a, GPIO_Pin
+0331	4081	mov     num1[0], a
+				;852										  	num2=num1;
+0332	4701	mov     a, num1[0]
+0333	4080	mov     num2[0], a
+				;853										  	num3=num1;
+0334	4701	mov     a, num1[0]
+0335	4089	mov     num3[0], a
+0336	5F0A	clr     num3[1]
+				;854										  	num4=num1;
+0337	4701	mov     a, num1[0]
+0338	4087	mov     num4[0], a
+0339	5F08	clr     num4[1]
+				;855											if (keyupflag)                 //keyupflag
+033A	7A2F	snz     uF2[0].4
+033B	2B48	jmp     _L379
+				;856											{	
+				;857												if((!bbRam)&&(!buzopen))
+033C	5086	sz      bbRam[0]
+033D	2B4A	jmp     _L374
+033E	7C2E	sz      uF3[0].0
+033F	2B4A	jmp     _L374
+				;858												{
+				;859													BBB(2,20,1);
+0340	0F02	mov     a, 2H
+0341	4086	mov     bbRam[0], a
+0342	0F14	mov     a, 14H
+0343	4084	mov     bbTime[0], a
+0344	5F05	clr     bbTime[1]
+0345	0F01	mov     a, 1H
+0346	4083	mov     bbCnt[0], a
+0347	2B4A	jmp     _L374
+				;860												}
+				;861											}
+				;862										    else
+				;863										    {
+				;864										    	buzopen=0;
+				_L379:
+0348	742E	clr     uF3[0].0
+				;865		  										bbRam=0;	
+0349	5F06	clr     bbRam[0]
+				;866										    }
+				;867										    
+				;868										    if(keydownflag)
+				;869										    {
+				;870	
+				;871										    }
+				;872										    else
+				;873										    {
+				;874	
+				;875										    }
+				;876			  			      	       	  
+				;877			  			      	       }break;
+				;878			  			      	case 4 :								//进入时间测试模式
+				;879			  			      	       {
+				;880			  			      	       	
+				;881			  			      	       	num3=peking_second1/10;
+02AA	4722	mov     a, peking_second1[0]
+02AB	40BD	mov     t, a
+02AC	0F0A	mov     a, AH
+02AD	40BE	mov     GPIO_BitVal, a
+02AE	23A8	call    L03A8
+02AF	473D	mov     a, t
+02B0	40B1	mov     ra, a
+02B1	4731	mov     a, ra
+02B2	4089	mov     num3[0], a
+02B3	5F0A	clr     num3[1]
+02B4	3F85	sz      ACC.7
+02B5	5F8A	set     num3[1]
+				;882			  			      	       	num4=peking_second1%10;
+02B6	4722	mov     a, peking_second1[0]
+02B7	40BD	mov     t, a
+02B8	0F0A	mov     a, AH
+02B9	40BE	mov     GPIO_BitVal, a
+02BA	23A8	call    L03A8
+02BB	473F	mov     a, GPIO_Pin
+02BC	40B1	mov     ra, a
+02BD	4731	mov     a, ra
+02BE	4087	mov     num4[0], a
+02BF	5F08	clr     num4[1]
+02C0	3F85	sz      ACC.7
+02C1	5F88	set     num4[1]
+				;883			  			      	       	num1=peking_min1/10;
+02C2	4721	mov     a, peking_min1[0]
+02C3	40BD	mov     t, a
+02C4	0F0A	mov     a, AH
+02C5	40BE	mov     GPIO_BitVal, a
+02C6	23A8	call    L03A8
+02C7	473D	mov     a, t
+02C8	4081	mov     num1[0], a
+				;884			  			      	       	num2=peking_min1%10;
+02C9	4721	mov     a, peking_min1[0]
+02CA	40BD	mov     t, a
+02CB	0F0A	mov     a, AH
+02CC	40BE	mov     GPIO_BitVal, a
+02CD	23A8	call    L03A8
+02CE	473F	mov     a, GPIO_Pin
+02CF	4080	mov     num2[0], a
+				;885			  			      	       }break;		      	
+02D0	2B4A	jmp     _L374
+				;886			  			      }
+				;887								Digbuff1 =num[num1];
+				_L374:
+034A	0F02	mov     a, 2H
+034B	4301	add     a, num1[0]
+034C	0083	mov     MP1, a
+034D	0F80	mov     a, 80H
+034E	1F01	clr     MP0
+034F	1381	adcm    a, MP0
+0350	2406	call    L0406
+0351	40AD	mov     uF4[0], a
+				;888								Digbuff2 =num[num2];
+0352	0F02	mov     a, 2H
+0353	4300	add     a, num2[0]
+0354	0083	mov     MP1, a
+0355	0F80	mov     a, 80H
+0356	1F01	clr     MP0
+0357	1381	adcm    a, MP0
+0358	2406	call    L0406
+0359	40AC	mov     uF5[0], a
+				;889								Digbuff3 =num[num3];
+035A	0F02	mov     a, 2H
+035B	4309	add     a, num3[0]
+035C	0083	mov     MP1, a
+035D	0F80	mov     a, 80H
+035E	530A	adc     a, num3[1]
+035F	0081	mov     MP0, a
+0360	2406	call    L0406
+0361	40AB	mov     uF6[0], a
+				;890								Digbuff4 =num[num4];
+0362	0F02	mov     a, 2H
+0363	4307	add     a, num4[0]
+0364	0083	mov     MP1, a
+0365	0F80	mov     a, 80H
+0366	5308	adc     a, num4[1]
+0367	0081	mov     MP0, a
+0368	2406	call    L0406
+0369	40AA	mov     uF7[0], a
+				;891			  			  
+				;892			  		}	
+036A	2A77	jmp     _L380
+036B	0003	ret
+				;893		}
+				;894	//===========================主函数=========================================//		
+				;895		void main()
+				;896		{
+				@code .SECTION 'CODE'
+				include HT66F0185.inc
+0000	2820	jmp     begin_startup_value
+0001	063F	and     a, CPC
+0002	4F5B	dc	04F5BH
+0003	6D66	jmp     D66H
+0004	077D	mov     a, __pdpu[41]
+0005	6F7F	jmp     F7FH
+0006	7C77	sz      _test_mode_2[50].0
+0007	5E39	dc	05E39H
+0008	7179	set     _test_mode_2[52].2
+0009	0200	sub     a, [00H]
+000A	1004	sza     BP
+000B	0020	dc	00020H
+				startupend3:
+				@start .SECTION 'CODE'
+005A	2B6C	jmp     _main
+				;897		   GCC_DELAY(100);  //延时待系统稳定
+				_main:
+				_main:
+036C	0F18	mov     a, 18H
+036D	23A4	call    L03A4
+				;898		   
+				;899		   Init_clock();   //初始化时钟
+036E	20CE	call    _Init_clock
+				;900	//======================端口初始化==============================//	   
+				;901		   GPIOA_INIT(GPIO_Pin_All,GPIO_Mode_OUT,DISABLE,RESET);
+036F	5F3F	clr     GPIO_Pin
+0370	5F3E	clr     GPIO_BitVal
+0371	5F3D	clr     t
+0372	0FFF	mov     a, FFH
+0373	205B	call    _GPIOA_INIT
+				;902		   GPIOB_INIT(GPIO_Pin_All,GPIO_Mode_OUT,RESET);
+0374	5F3E	clr     GPIO_BitVal
+0375	5F3D	clr     t
+0376	0FFF	mov     a, FFH
+0377	2074	call    _GPIOB_INIT
+				;903		   GPIOC_INIT(GPIO_Pin_All,GPIO_Mode_OUT,SET);	   
+0378	0F01	mov     a, 1H
+0379	40BE	mov     GPIO_BitVal, a
+037A	5F3D	clr     t
+037B	0FFF	mov     a, FFH
+037C	208D	call    _GPIOC_INIT
+				;904		   GPIOD_INIT(GPIO_Pin_All,GPIO_Mode_OUT,RESET);
+037D	5F3E	clr     GPIO_BitVal
+037E	5F3D	clr     t
+037F	0FFF	mov     a, FFH
+0380	20A6	call    _GPIOD_INIT
+				;905		   
+				;906		   GPIOA_INIT(GPIO_Pin_1,GPIO_Mode_OUT,DISABLE,SET);
+0381	0F01	mov     a, 1H
+0382	40BF	mov     GPIO_Pin, a
+0383	5F3E	clr     GPIO_BitVal
+0384	5F3D	clr     t
+0385	0F02	mov     a, 2H
+0386	205B	call    _GPIOA_INIT
+				;907		   	   
+				;908		   GPIOB_INIT(GPIO_Pin_4,GPIO_Mode_INT,RESET);
+0387	5F3E	clr     GPIO_BitVal
+0388	0F01	mov     a, 1H
+0389	40BD	mov     t, a
+038A	0F10	mov     a, 10H
+038B	2074	call    _GPIOB_INIT
+				;909		   GPIOB_INIT(GPIO_Pin_3,GPIO_Mode_INT,RESET);
+038C	5F3E	clr     GPIO_BitVal
+038D	0F01	mov     a, 1H
+038E	40BD	mov     t, a
+038F	0F08	mov     a, 8H
+0390	2074	call    _GPIOB_INIT
+				;910		   GPIOB_INIT(GPIO_Pin_2,GPIO_Mode_INT,RESET);
+0391	5F3E	clr     GPIO_BitVal
+0392	0F01	mov     a, 1H
+0393	40BD	mov     t, a
+0394	0F04	mov     a, 4H
+0395	2074	call    _GPIOB_INIT
+				;911	//======================END====================================//
+				;912	     buz=0;        //关蜂鸣器
+0396	3794	clr     PA7
+				;913	     buzopen=0;    //清蜂鸣器开启标志
+0397	742E	clr     uF3[0].0
+				;914		   bbRam=0;	    
+0398	5F06	clr     bbRam[0]
+				;915		   data=1;    //默认控制小时 闪烁位置选择  
+0399	0F01	mov     a, 1H
+039A	4096	mov     data[0], a
+				;916		   
+				;917		   while(1)
+				;918			 {
+				;919			 	GCC_CLRWDT();   //喂狗
+039B	0001	clr     wdt
+				;920	      test_mode();  //测试模式 上电前同时按下三个按键
+039C	2274	call    _test_mode
+039D	2B9D	jmp     $
+				@dummy .SECTION 'CODE'
+039E	0000	nop
+039F	0000	nop
+03A0	0000	nop
+03A1	0000	nop
+03A2	0000	nop
+03A3	0000	nop
+				L03A4:
+03A4	0000	nop
+03A5	1785	sdz     ACC
+03A6	2BA4	jmp     L03A4
+03A7	0003	ret
+				L03A8:
+03A8	5F40	clr     GPIO_Pin
+03A9	7BBD	snz     t.7
+03AA	2BAE	jmp     L03AE
+03AB	41BD	cpl     t
+03AC	54BD	inc     t
+03AD	55C0	dec     GPIO_Pin
+				L03AE:
+03AE	7BBE	snz     GPIO_BitVal.7
+03AF	2BB4	jmp     L03B4
+03B0	41BE	cpl     GPIO_BitVal
+03B1	54BE	inc     GPIO_BitVal
+03B2	54C0	inc     GPIO_Pin
+03B3	54C0	inc     GPIO_Pin
+				L03B4:
+03B4	5F3F	clr     GPIO_Pin
+03B5	0F08	mov     a, 8H
+03B6	40C1	mov     GPIO_Pin[1], a
+				L03B7:
+03B7	340A	clr     C
+03B8	5ABD	rlc     t
+03B9	5ABF	rlc     GPIO_Pin
+03BA	473F	mov     a, GPIO_Pin
+03BB	423E	sub     a, GPIO_BitVal
+03BC	380A	snz     C
+03BD	2BC2	jmp     L03C2
+03BE	473F	mov     a, GPIO_Pin
+03BF	423E	sub     a, GPIO_BitVal
+03C0	40BF	mov     GPIO_Pin, a
+03C1	54BD	inc     t
+				L03C2:
+03C2	57C1	sdz     GPIO_Pin[1]
+03C3	2BB7	jmp     L03B7
+03C4	7C40	sz      GPIO_Pin.0
+03C5	41BF	cpl     GPIO_Pin
+03C6	7C40	sz      GPIO_Pin.0
+03C7	54BF	inc     GPIO_Pin
+03C8	7CC0	sz      GPIO_Pin.1
+03C9	41BD	cpl     t
+03CA	7CC0	sz      GPIO_Pin.1
+03CB	54BD	inc     t
+03CC	0003	ret
+				L03CD:
+03CD	5F41	clr     GPIO_Pin[1]
+03CE	5F42	clr     GPIO_Pin[2]
+03CF	0F10	mov     a, 10H
+03D0	40C4	mov     GPIO_Pin[4], a
+				L03D1:
+03D1	340A	clr     C
+03D2	5ABD	rlc     t
+03D3	5ABE	rlc     GPIO_BitVal
+03D4	5AC1	rlc     GPIO_Pin[1]
+03D5	5AC2	rlc     GPIO_Pin[2]
+03D6	4741	mov     a, GPIO_Pin[1]
+03D7	423F	sub     a, GPIO_Pin
+03D8	4742	mov     a, GPIO_Pin[2]
+03D9	5240	sbc     a, GPIO_Pin
+03DA	380A	snz     C
+03DB	2BE1	jmp     L03E1
+03DC	40C2	mov     GPIO_Pin[2], a
+03DD	4741	mov     a, GPIO_Pin[1]
+03DE	423F	sub     a, GPIO_Pin
+03DF	40C1	mov     GPIO_Pin[1], a
+03E0	54BD	inc     t
+				L03E1:
+03E1	57C4	sdz     GPIO_Pin[4]
+03E2	2BD1	jmp     L03D1
+03E3	7843	snz     GPIO_Pin[3].0
+03E4	2BEA	jmp     L03EA
+03E5	41C1	cpl     GPIO_Pin[1]
+03E6	41C2	cpl     GPIO_Pin[2]
+03E7	54C1	inc     GPIO_Pin[1]
+03E8	3D0A	sz      Z
+03E9	54C2	inc     GPIO_Pin[2]
+				L03EA:
+03EA	78C3	snz     GPIO_Pin[3].1
+03EB	2BF1	jmp     L03F1
+03EC	41BD	cpl     t
+03ED	41BE	cpl     GPIO_BitVal
+03EE	54BD	inc     t
+03EF	3D0A	sz      Z
+03F0	54BE	inc     GPIO_BitVal
+				L03F1:
+03F1	0003	ret
+				L03F2:
+03F2	5F41	clr     GPIO_Pin[1]
+03F3	5F42	clr     GPIO_Pin[2]
+				L03F4:
+03F4	783F	snz     GPIO_Pin.0
+03F5	2BFA	jmp     L03FA
+03F6	473D	mov     a, t
+03F7	43C1	addm    a, GPIO_Pin[1]
+03F8	473E	mov     a, GPIO_BitVal
+03F9	53C2	adcm    a, GPIO_Pin[2]
+				L03FA:
+03FA	340A	clr     C
+03FB	5ABD	rlc     t
+03FC	5ABE	rlc     GPIO_BitVal
+03FD	340A	clr     C
+03FE	5BC0	rrc     GPIO_Pin
+03FF	5BBF	rrc     GPIO_Pin
+0400	473F	mov     a, GPIO_Pin
+0401	4540	or      a, GPIO_Pin
+0402	390A	snz     Z
+0403	2BF4	jmp     L03F4
+0404	0003	ret
+0405	1483	inc     MP1
+				L0406:
+0406	3F81	sz      MP0.7
+0407	2C0C	jmp     L040C
+0408	0701	mov     a, MP0
+0409	0084	mov     BP, a
+040A	0702	mov     a, __iar1[0]
+040B	0003	ret
+				L040C:
+040C	1B01	rrca    MP0
+040D	0E3F	and     a, 3FH
+040E	0089	mov     TBHP, a
+040F	1B03	rrca    MP1
+0410	0087	mov     TBLP, a
+0411	1D05	tabrd   ACC
+0412	3C0A	sz      C
+0413	0708	mov     a, TBLH
+0414	0003	ret
+				L0D66:
+				org	0d66h
+0D66	0000	nop
+				L0F7F:
+				org	0f7fh
+0F7F	0000	nop
+				;921	//========================END==================================//
+				;922			 }
+				;923		}
+				;file F:\HTMCU\MB-T006-HT66F0185\[TEST08] TEST\startup1_l.asm
+				;1	;;--------------------------------------------------------------;;
+				;2	;;    This file is part of the Holtek C Compiler V3 package     ;;
+				;3	;;    For the initialization of static linkage variables        ;;
+				;4	;;    Copyright (C) 2017 Holtek Semiconductor Inc.              ;;
+				;5	;;    Version: 1.07 (Above IDE3000 V7.94)                       ;;
+				;6	;;    Date:    2017/03/06                                        ;;
+				;7	;;--------------------------------------------------------------;;
+				;8	
+				;9	acc equ [05h]
+				;10	tblp equ [07h]
+				;11	tblh equ [08h]
+				;12	;;tbhp equ [09h] 
+				;13	r0 equ [00h]
+				;14	mp0 equ [01h]
+				;15	r1 equ [02h]
+				;16	mp1l equ [03h]
+				;17	mp1h equ [04h]
+				;18	z equ [0ah].2
+				;19	c equ [0ah].0
+				;20	
+				;21	ifndef tbhp
+				;22	tbhp equ [09h]
+				;23	endif
+				;24	 
+				;25	extern startup_value_1:near
+				;26	
+				;27	@start .section 'code'
+				;28	begin_startup_value:
+				;29	  mov a,low (offset startup_value_1) 
+				begin_startup_value:
+				@start .SECTION 'CODE'
+				_main_startup1:
+				@start .SECTION 'CODE'
+				@dummy28 .SECTION 'CODE'
+0020	0F0F	mov     a, FH
+				;30	  mov tblp,a
+0021	0087	mov     TBLP, a
+				;31	  mov a,high (offset startup_value_1) 
+0022	0F00	mov     a, 0H
+				;32	  mov tbhp,a
+0023	0089	mov     TBHP, a
+				;33	next_table:
+				;34	  ;CLR WDT
+				;35	  inc tblp
+				next_table:
+0024	1487	inc     TBLP
+				;36	  sz z
+0025	3D0A	sz      Z
+				;37	  inc tbhp
+0026	1489	inc     TBHP
+				;38	ifdef USE_TABRDC
+				;39	  tabrdc mp0
+				;40	else
+				;41	  tabrd mp0
+0027	1D01	tabrd   MP0
+				;42	endif
+				;43	  sz mp0
+0028	1081	sz      MP0
+				;44	  jmp read_data
+0029	282B	jmp     read_data
+				;45	  jmp startupend1
+002A	2840	jmp     startupend1
+				;46	read_data:
+				;47	  inc tblp
+				read_data:
+002B	1487	inc     TBLP
+				;48	  sz z
+002C	3D0A	sz      Z
+				;49	  inc tbhp
+002D	1489	inc     TBHP
+				;50	ifdef USE_TABRDC
+				;51	  tabrdc mp1l
+				;52	else
+				;53	  tabrd mp1l
+002E	1D03	tabrd   MP1
+				;54	endif
+				;55	  mov a,tblh
+002F	0708	mov     a, TBLH
+				;56	  mov mp1h,a
+0030	0084	mov     BP, a
+				;57	next_data:
+				;58	  inc tblp
+				next_data:
+0031	1487	inc     TBLP
+				;59	  sz z
+0032	3D0A	sz      Z
+				;60	  inc tbhp
+0033	1489	inc     TBHP
+				;61	ifdef USE_TABRDC
+				;62	  tabrdc acc
+				;63	else
+				;64	  tabrd acc
+0034	1D05	tabrd   ACC
+				;65	endif
+				;66	  mov r1,a
+0035	0082	mov     __iar1[0], a
+				;67	  sdz mp0
+0036	1781	sdz     MP0
+				;68	  jmp $+2
+0037	2839	jmp     L0039
+				;69	  jmp next_table
+0038	2824	jmp     next_table
+				;70	  inc mp1l
+				L0039:
+0039	1483	inc     MP1
+				;71	  mov a,tblh
+003A	0708	mov     a, TBLH
+				;72	  mov r1,a
+003B	0082	mov     __iar1[0], a
+				;73	  inc mp1l
+003C	1483	inc     MP1
+				;74	  sdz mp0
+003D	1781	sdz     MP0
+				;75	  jmp next_data
+003E	2831	jmp     next_data
+				;76	  jmp next_table
+003F	2824	jmp     next_table
+				;77	
+				;78	;end_startup_value:
+				;79	
+				;80	startupend1:
+				;81	ifndef Disable_Bit_Initial
+				;82		MOV A,high  bitdatasec1_start
+				startupend1:
+0040	0F00	mov     a, 0H
+				;83		MOV mp1h,a
+0041	0084	mov     BP, a
+				;84		MOV A,offset bitdatasec1_end
+0042	0FB1	mov     a, B1H
+				;85		mov mp1l,A
+0043	0083	mov     MP1, a
+				;86		dec mp1l
+0044	1583	dec     MP1
+				;87		clr z
+0045	350A	clr     Z
+				;88		sub a,offset bitdatasec1_start
+0046	0AB1	sub     a, B1H
+				;89		sz z
+0047	3D0A	sz      Z
+				;90		jmp startupend2
+0048	284D	jmp     startupend2
+				;91	L0005:
+				;92		set r1
+				L0005:
+0049	1F82	set     __iar1[0]
+				;93		dec mp1l
+004A	1583	dec     MP1
+				;94		sdz  acc
+004B	1785	sdz     ACC
+				;95		jmp L0005
+004C	2849	jmp     L0005
+				;96	
+				;97	startupend2:
+				;98		MOV A,high  bitdatasec0_start
+				startupend2:
+004D	0F00	mov     a, 0H
+				;99		MOV mp1h,a
+004E	0084	mov     BP, a
+				;100		MOV A,offset bitdatasec0_end
+004F	0FB1	mov     a, B1H
+				;101		mov mp1l,A
+0050	0083	mov     MP1, a
+				;102		dec mp1l
+0051	1583	dec     MP1
+				;103		clr z
+0052	350A	clr     Z
+				;104		sub a,offset bitdatasec0_start
+0053	0AB1	sub     a, B1H
+				;105		sz  z
+0054	3D0A	sz      Z
+				;106		jmp startupend3
+0055	285A	jmp     startupend3
+				;107	L0006:
+				;108		clr r1
+				L0006:
+0056	1F02	clr     __iar1[0]
+				;109		dec mp1l
+0057	1583	dec     MP1
+				;110		sdz  acc
+0058	1785	sdz     ACC
+				;111		jmp L0006
+0059	2856	jmp     L0006
+				;112	startupend3:
+				;113	endif		
+				;114	   
+				;115	@ROMDATA_BASE .SECTION com_l 'CODE'  
+				;116	startup_value:
+				;117	;;linker range the initial value table here
+				;118	
+				;119	@BITDATASEC1 .SECTION com_l 'DATA'  
+				;120	bitdatasec1_start:
+				;121	
+				;122	@BITDATASEC1 .SECTION com_e 'DATA'  
+				;123	bitdatasec1_end:
+				;124	
+				;125	@BITDATASEC .SECTION com_l 'DATA'  
+				;126	bitdatasec0_start:
+				;127	
+				;128	@BITDATASEC .SECTION com_e 'DATA'  
+				;129	bitdatasec0_end:
+				data .SECTION 'DATA'
+				__iar1 DB DUP (?) ; __iar1
+				__mp1 DB DUP (?) ; __mp1
+				__bp DB DUP (?) ; __bp
+				__smod DB DUP (?) ; __smod
+				__integ DB DUP (?) ; __integ
+				__intc0 DB DUP (?) ; __intc0
+				__intc1 DB DUP (?) ; __intc1
+				__mfi0 DB DUP (?) ; __mfi0
+				__pa DB DUP (?) ; __pa
+				__pac DB DUP (?) ; __pac
+				__papu DB DUP (?) ; __papu
+				__tmpc DB DUP (?) ; __tmpc
+				__wdtc DB DUP (?) ; __wdtc
+				__tbc DB DUP (?) ; __tbc
+				__pb DB DUP (?) ; __pb
+				__pbc DB DUP (?) ; __pbc
+				__pbpu DB DUP (?) ; __pbpu
+				__tm0c0 DB DUP (?) ; __tm0c0
+				__tm0c1 DB DUP (?) ; __tm0c1
+				__tm0al DB DUP (?) ; __tm0al
+				__tm0ah DB DUP (?) ; __tm0ah
+				__cpc DB DUP (?) ; __cpc
+				__pc DB DUP (?) ; __pc
+				__pcc DB DUP (?) ; __pcc
+				__pcpu DB DUP (?) ; __pcpu
+				__acerl DB DUP (?) ; __acerl
+				__slcdc0 DB DUP (?) ; __slcdc0
+				__slcdc1 DB DUP (?) ; __slcdc1
+				__slcdc2 DB DUP (?) ; __slcdc2
+				__slcdc3 DB DUP (?) ; __slcdc3
+				__slcdc4 DB DUP (?) ; __slcdc4
+				__pd DB DUP (?) ; __pd
+				__pdc DB DUP (?) ; __pdc
+				__pdpu DB DUP (?) ; __pdpu
+				num2 DB DUP (?) ; num2
+				num1 DB DUP (?) ; num1
+				bBbSound DB DUP (?) ; bBbSound
+				bbCnt DB DUP (?) ; bbCnt
+				bbTime DB 2 DUP (?) ; bbTime
+				bbRam DB DUP (?) ; bbRam
+				num4 DB 2 DUP (?) ; num4
+				num3 DB 2 DUP (?) ; num3
+				wei DB DUP (?) ; wei
+				sum1 DB 2 DUP (?) ; sum1
+				sum DB 2 DUP (?) ; sum
+				value DB DUP (?) ; value
+				keystep DB DUP (?) ; keystep
+				step3 DB DUP (?) ; step3
+				step2 DB DUP (?) ; step2
+				step1 DB DUP (?) ; step1
+				step DB DUP (?) ; step
+				data DB DUP (?) ; data
+				t2s DB DUP (?) ; t2s
+				t10s DB DUP (?) ; t10s
+				tms4 DB DUP (?) ; tms4
+				tms3 DB DUP (?) ; tms3
+				tms2 DB DUP (?) ; tms2
+				tms1 DB DUP (?) ; tms1
+				tms DB 2 DUP (?) ; tms
+				bj_second DB DUP (?) ; bj_second
+				bj_min DB DUP (?) ; bj_min
+				peking_min1 DB DUP (?) ; peking_min1
+				peking_second1 DB DUP (?) ; peking_second1
+				peking_second DB DUP (?) ; peking_second
+				peking_min DB DUP (?) ; peking_min
+				peking_hour DB DUP (?) ; peking_hour
+				alarm_second DB DUP (?) ; alarm_second
+				alarm_min DB DUP (?) ; alarm_min
+				alarm_hour DB DUP (?) ; alarm_hour
+				uF8 DB DUP (?) ; uF8
+				uF7 DB DUP (?) ; uF7
+				uF6 DB DUP (?) ; uF6
+				uF5 DB DUP (?) ; uF5
+				uF4 DB DUP (?) ; uF4
+				uF3 DB DUP (?) ; uF3
+				uF2 DB DUP (?) ; uF2
+				uF1 DB DUP (?) ; uF1
+				ra DB DUP (?)
+				rb DB DUP (?)
+				rc DB DUP (?)
+				r11c DB DUP (?)
+				r21c DB DUP (?)
+				ra1c DB DUP (?)
+				rb1c DB DUP (?)
+				r10c DB DUP (?)
+				r20c DB DUP (?)
+				ra0c DB DUP (?)
+				_isr_TM0_2 DB DUP (?)
+				_isr_TBS0_2 DB DUP (?)
+				t DB DUP (?) ; t
+				GPIO_BitVal DB DUP (?) ; GPIO_BitVal
+				GPIO_Pin DB DUP (?) ; GPIO_Pin
+				GPIO_Pin DB DUP (?) ; GPIO_Pin
+				_test_mode_2 DB DUP (?)

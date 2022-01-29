@@ -1,0 +1,568 @@
+				;file F:\HTMCU\MB-T006-HT66F0185\[TEST03] BEEP\3key.c
+				;1	#include "init.h"
+				;2	#include "HT66F0185.h"
+				;3			
+				;4	//===========================PA端口初始化函数=========================================//
+				;5		void GPIOA_INIT(u8 GPIO_Pin,u8 GPIO_Mode,u8 wakeup,u8 GPIO_BitVal)  //u8 为无符号字符型
+				;6		{
+				@dummy28 .SECTION 'CODE'
+				_GPIOA_INIT:
+				_GPIOA_INIT:
+0020	40A0	mov     GPIO_Pin[0], a
+				;7			if ((u8)GPIO_Mode == (u8)0x01)   //pa为输入型时
+0021	571D	sdza    GPIO_Mode[0]
+0022	2828	jmp     L0028
+				;8			 {
+				;9			 	_pac|=GPIO_Pin;             //当pa引脚GPIO_Pin为输入，则置位pac ，同时设置上拉电阻
+0023	4720	mov     a, GPIO_Pin[0]
+0024	0595	orm     a, PAC
+				;10			 	_papu|=GPIO_Pin;
+0025	4720	mov     a, GPIO_Pin[0]
+0026	0596	orm     a, PAPU
+0027	282E	jmp     L002E
+				;11			 }
+				;12			else
+				;13			 {
+				;14				_pac&=(u8)(~GPIO_Pin);      //将pa设置为输出型 
+				L0028:
+0028	4120	cpla    GPIO_Pin[0]
+0029	4097	mov     ra, a
+002A	4717	mov     a, ra
+002B	0695	andm    a, PAC
+				;15				_papu&=(u8)(~GPIO_Pin);	
+002C	4717	mov     a, ra
+002D	0696	andm    a, PAPU
+				;16			 }
+				;17			 
+				;18			if (GPIO_BitVal != RESET)       //重置
+				L002E:
+002E	509F	sz      GPIO_BitVal[0]
+002F	2831	jmp     L0031
+0030	2834	jmp     L0034
+				;19			 {
+				;20			  	 _pa|=GPIO_Pin;
+				L0031:
+0031	4720	mov     a, GPIO_Pin[0]
+0032	0594	orm     a, PA
+0033	2838	jmp     L0038
+				;21			 }
+				;22			else
+				;23			 {
+				;24			 	 _pa&=(u8)(~GPIO_Pin);   
+				L0034:
+0034	4120	cpla    GPIO_Pin[0]
+0035	4097	mov     ra, a
+0036	4717	mov     a, ra
+0037	0694	andm    a, PA
+				L0038:
+0038	0003	ret
+				;25	
+				;26			 }	 	
+				;27		}
+				;28	//===========================PB端口初始化函数=========================================//
+				;29		void GPIOB_INIT(u8 GPIO_Pin,u8 GPIO_Mode,u8 GPIO_BitVal)
+				;30		{
+				_GPIOB_INIT:
+				_GPIOB_INIT:
+0039	409F	mov     GPIO_Pin[0], a
+				;31			 
+				;32			if ((u8)GPIO_Mode == (u8)0x01)
+003A	571D	sdza    GPIO_Mode[0]
+003B	2841	jmp     L0041
+				;33			 {
+				;34			 	_pbc|=GPIO_Pin;
+003C	471F	mov     a, GPIO_Pin[0]
+003D	05A6	orm     a, PBC
+				;35			 	_pbpu|=GPIO_Pin;
+003E	471F	mov     a, GPIO_Pin[0]
+003F	05A7	orm     a, PBPU
+0040	2847	jmp     L0047
+				;36			 }
+				;37			else
+				;38			 {
+				;39				_pbc&=(u8)(~GPIO_Pin);
+				L0041:
+0041	411F	cpla    GPIO_Pin[0]
+0042	4097	mov     ra, a
+0043	4717	mov     a, ra
+0044	06A6	andm    a, PBC
+				;40				_pbpu&=(u8)(~GPIO_Pin);	
+0045	4717	mov     a, ra
+0046	06A7	andm    a, PBPU
+				;41			 }
+				;42			 
+				;43			if (GPIO_BitVal != RESET)
+				L0047:
+0047	509E	sz      GPIO_BitVal[0]
+0048	284A	jmp     L004A
+0049	284D	jmp     L004D
+				;44			 {
+				;45			  	 _pb|=GPIO_Pin;
+				L004A:
+004A	471F	mov     a, GPIO_Pin[0]
+004B	05A5	orm     a, PB
+004C	2851	jmp     L0051
+				;46			 }
+				;47			else
+				;48			 {
+				;49			 	 _pb&=(u8)(~GPIO_Pin);
+				L004D:
+004D	411F	cpla    GPIO_Pin[0]
+004E	4097	mov     ra, a
+004F	4717	mov     a, ra
+0050	06A5	andm    a, PB
+				L0051:
+0051	0003	ret
+				;50			 }	 	
+				;51		}
+				;52	//===========================PC端口初始化函数=========================================//
+				;53		void GPIOC_INIT(u8 GPIO_Pin,u8 GPIO_Mode,u8 GPIO_BitVal)
+				;54		{
+				_GPIOC_INIT:
+				_GPIOC_INIT:
+0052	409F	mov     GPIO_Pin[0], a
+				;55			 
+				;56			if ((u8)GPIO_Mode == (u8)0x01)
+0053	571D	sdza    GPIO_Mode[0]
+0054	285A	jmp     L005A
+				;57			 {
+				;58			 	_pcc|=GPIO_Pin;
+0055	471F	mov     a, GPIO_Pin[0]
+0056	05C2	orm     a, PCC
+				;59			 	_pcpu|=GPIO_Pin;
+0057	471F	mov     a, GPIO_Pin[0]
+0058	05C3	orm     a, PCPU
+0059	2860	jmp     L0060
+				;60			 }
+				;61			else
+				;62			 {
+				;63				_pcc&=(u8)(~GPIO_Pin);
+				L005A:
+005A	411F	cpla    GPIO_Pin[0]
+005B	4097	mov     ra, a
+005C	4717	mov     a, ra
+005D	06C2	andm    a, PCC
+				;64				_pcpu&=(u8)(~GPIO_Pin);	
+005E	4717	mov     a, ra
+005F	06C3	andm    a, PCPU
+				;65			 }
+				;66			 
+				;67			if (GPIO_BitVal != RESET)
+				L0060:
+0060	509E	sz      GPIO_BitVal[0]
+0061	2863	jmp     L0063
+0062	2866	jmp     L0066
+				;68			 {
+				;69			  	 _pc|=GPIO_Pin;
+				L0063:
+0063	471F	mov     a, GPIO_Pin[0]
+0064	05C1	orm     a, PC
+0065	286A	jmp     L006A
+				;70			 }
+				;71			else
+				;72			 {
+				;73			 	 _pc&=(u8)(~GPIO_Pin);
+				L0066:
+0066	411F	cpla    GPIO_Pin[0]
+0067	4097	mov     ra, a
+0068	4717	mov     a, ra
+0069	06C1	andm    a, PC
+				L006A:
+006A	0003	ret
+				;74			 }	 	
+				;75		}
+				;76	
+				;77	//===========================PD端口初始化函数=========================================//
+				;78		void GPIOD_INIT(u8 GPIO_Pin,u8 GPIO_Mode,u8 GPIO_BitVal)
+				;79		{
+				_GPIOD_INIT:
+				_GPIOD_INIT:
+006B	409F	mov     GPIO_Pin[0], a
+				;80			 
+				;81			if ((u8)GPIO_Mode == (u8)0x01)
+006C	571D	sdza    GPIO_Mode[0]
+006D	2873	jmp     L0073
+				;82			 {
+				;83			 	_pdc|=GPIO_Pin;
+006E	471F	mov     a, GPIO_Pin[0]
+006F	05D3	orm     a, PDC
+				;84			 	_pdpu|=GPIO_Pin;
+0070	471F	mov     a, GPIO_Pin[0]
+0071	05D4	orm     a, PDPU
+0072	2879	jmp     L0079
+				;85			 }
+				;86			else
+				;87			 {
+				;88				_pdc&=(u8)(~GPIO_Pin);
+				L0073:
+0073	411F	cpla    GPIO_Pin[0]
+0074	4097	mov     ra, a
+0075	4717	mov     a, ra
+0076	06D3	andm    a, PDC
+				;89				_pdpu&=(u8)(~GPIO_Pin);	
+0077	4717	mov     a, ra
+0078	06D4	andm    a, PDPU
+				;90			 }
+				;91			 
+				;92			if (GPIO_BitVal != RESET)
+				L0079:
+0079	509E	sz      GPIO_BitVal[0]
+007A	287C	jmp     L007C
+007B	287F	jmp     L007F
+				;93			 {
+				;94			  	 _pd|=GPIO_Pin;
+				L007C:
+007C	471F	mov     a, GPIO_Pin[0]
+007D	05D2	orm     a, PD
+007E	2883	jmp     L0083
+				;95			 }
+				;96			else
+				;97			 {
+				;98			 	 _pd&=(u8)(~GPIO_Pin);
+				L007F:
+007F	411F	cpla    GPIO_Pin[0]
+0080	4097	mov     ra, a
+0081	4717	mov     a, ra
+0082	06D2	andm    a, PD
+				L0083:
+0083	0003	ret
+				;99			 }	 	
+				;100		}
+				;101		
+				;102	//===========================数据存储区使能配置=========================================//
+				;103	void clr_ram_en(unsigned char t)
+				;104	{
+				_clr_ram_en:
+				_clr_ram_en:
+0084	4097	mov     ra, a
+0085	409D	mov     t[0], a
+				;105		_dmbp0 = t;
+0086	0F01	mov     a, 1H
+0087	4697	andm    a, ra
+0088	3404	clr     DMBP0
+0089	4717	mov     a, ra
+008A	0584	orm     a, BP
+				;106		_mp1 = 0x80;
+008B	0F80	mov     a, 80H
+008C	0083	mov     MP1, a
+				;107		while(_mp1!=0)
+008D	2890	jmp     L0090
+				L0090:
+0090	1083	sz      MP1
+0091	288E	jmp     L008E
+0092	0003	ret
+				;108		{
+				;109			_iar1 = 0;
+				L008E:
+008E	1F02	clr     __iar1[0]
+				;110			_mp1++;
+008F	1483	inc     MP1
+				;111		}
+				;112	}	
+				;113	//===========================时钟初始化函数=========================================//
+				;114		void Init_clock(void)
+				;115		{
+				;116	  	_smod=0x01;       //选择gao速时钟为系统时钟 内部8Mhz
+				_Init_clock:
+				_Init_clock:
+0093	0F01	mov     a, 1H
+0094	008B	mov     SMOD, a
+				;117	  	while(!_hto);     //等待高速震荡器就位
+				_L27:
+0095	390B	snz     HTO
+0096	2895	jmp     _L27
+				;118	  	_wdtc=0x57;       //使能看门狗
+0097	0F57	mov     a, 57H
+0098	009A	mov     WDTC, a
+				;119	  	_acerl=0x00;		  //取消A/D输入
+0099	1F44	clr     ACERL
+				;120	  	_tmpc=0x00;       //取消相关引脚用作TM 输入/ 输出，相关引脚保持原来功能
+009A	1F19	clr     TMPC
+				;121	  	_cpc=0x08;        //比较器输出仅内部使用
+009B	0F08	mov     a, 8H
+009C	00BF	mov     CPC, a
+				;122	  	_integ=0x00;			//所有外部中断边沿控制除能
+009D	1F0D	clr     INTEG
+				;123	  	_int0e=0;				  //INTO中断除能
+009E	348E	clr     INT0E
+				;124	  	_emi = 0;   			//关闭总中断
+009F	340E	clr     EMI
+				;125	
+				;126	//=========LCD控制寄存器引脚设定为其他功能=====================//		
+				;127			_slcdc0 = 0;	//设定为其他引脚功能
+00A0	1F4A	clr     SLCDC0
+				;128			_slcdc1 = 0;
+00A1	1F4B	clr     SLCDC1
+				;129			_slcdc2 = 0;
+00A2	1F4C	clr     SLCDC2
+				;130			_slcdc3 = 0;
+00A3	1F4D	clr     SLCDC3
+				;131			_slcdc4 = 0;
+00A4	1F4E	clr     SLCDC4
+				;132	/***********TM0************/
+				;133	  	_tm0c0=0x10;			//选择系统时钟fsys作为t1时钟fint=8MHZ	
+00A5	0F10	mov     a, 10H
+00A6	00AF	mov     TM0C0, a
+				;134	  	_tm0c1=0xc1;			//定时模式，a匹配
+00A7	0FC1	mov     a, C1H
+00A8	00B0	mov     TM0C1, a
+				;135	  	_tm0al=0xf8;			//定时初值  0x5f8=1528
+00A9	0FF8	mov     a, F8H
+00AA	00B3	mov     TM0AL, a
+				;136	  	_tm0ah=0x05;            //1528/8MHZ=191us
+00AB	0F05	mov     a, 5H
+00AC	00B4	mov     TM0AH, a
+				;137	  	_t0af=0;				//清t中断标志位
+00AD	3691	clr     T0AF
+				;138	  	_t0on=1;				//启动定时
+00AE	31AF	set     T0ON
+				;139	  	_mf0e=1;				//开多功能中断
+00AF	318E	set     MF0E
+				;140	  	_t0ae=1;	    		//开t0中断
+00B0	3091	set     T0AE
+				;141	/***********时基0************/	  
+				;142	  	_tbc=0b10000111;       //时基定时器配置使能 fTBC时钟源 LXT快速启振
+00B1	0F87	mov     a, 87H
+00B2	009B	mov     TBC, a
+				;143	  	_tb0f=0;               //时基0中断请求标志清零
+00B3	378F	clr     TB0F
+				;144	  	_tb0e=1;               //时基0中断控制位使能  	
+00B4	318F	set     TB0E
+				;145	  	_emi=1;		  			//开总中断
+00B5	300E	set     EMI
+				;146		  	
+				;147		  GCC_CLRWDT();	         //清除看门狗
+00B6	0001	clr     wdt
+				;148			clr_ram_en(0);         //数据存储区选择BANK0
+00B7	0F00	mov     a, 0H
+00B8	2084	call    _clr_ram_en
+				;149			clr_ram_en(1);         //数据存储区选择BANK1
+00B9	0F01	mov     a, 1H
+00BA	2084	call    _clr_ram_en
+00BB	0003	ret
+				;150	
+				;151		}
+				;152	
+				;153	//===========================时基定时器中断入口=========================================//
+				;154		DEFINE_ISR(isr_TBS0, 0x1C)       //时基定时器中断函数  
+				;155		{	
+				@isr_TBS0_code .SECTION 'CODE'
+001C	4098	mov     r11c, a
+001D	070A	mov     a, STATUS
+001E	4099	mov     r21c, a
+001F	2802	jmp     _isr_TBS0
+				;156			_tb0f=0;
+				_isr_TBS0:
+				_isr_TBS0:
+0002	378F	clr     TB0F
+0003	4719	mov     a, r21c
+0004	008A	mov     STATUS, a
+0005	4718	mov     a, r11c
+0006	0004	reti
+0007	0000	nop
+0008	0000	nop
+0009	0000	nop
+000A	0000	nop
+000B	0000	nop
+				;157			
+				;158				
+				;159		}
+				;160	
+				;161	//===========================定时器0中断入口=========================================//
+				;162		DEFINE_ISR(isr_TM0, 0x0c)   //定时器0中断函数  191us
+				;163		{
+				@isr_TM0_code .SECTION 'CODE'
+000C	409A	mov     r10c, a
+000D	070A	mov     a, STATUS
+000E	409B	mov     r20c, a
+000F	28BC	jmp     _isr_TM0
+				@dummy12 .SECTION 'CODE'
+0010	0000	nop
+0011	0000	nop
+0012	0000	nop
+0013	0000	nop
+0014	0000	nop
+0015	0000	nop
+				L0016:
+0016	0000	nop
+0017	1785	sdz     ACC
+0018	2816	jmp     L0016
+0019	0003	ret
+001A	0000	nop
+001B	0000	nop
+				;164	    _t0af=0;       //t0中断请求标志清零
+				_isr_TM0:
+				_isr_TM0:
+00BC	3691	clr     T0AF
+				;165	    _emi=1;        //开总中断
+00BD	300E	set     EMI
+				;166	    tms++;
+00BE	5492	inc     tms[0]
+00BF	3D0A	sz      Z
+00C0	5493	inc     tms[1]
+				;167	    if(tms>=5236)
+00C1	0F73	mov     a, 73H
+00C2	4212	sub     a, tms[0]
+00C3	0F14	mov     a, 14H
+00C4	5213	sbc     a, tms[1]
+00C5	3C0A	sz      C
+00C6	28D4	jmp     _L29
+				;168	    {
+				;169	    	tms=0;
+00C7	5F12	clr     tms[0]
+00C8	5F13	clr     tms[1]
+				;170	    	buz=~buz;
+00C9	1814	rla     PA
+00CA	0E01	and     a, 1H
+00CB	409C	mov     ra0c, a
+00CC	0F01	mov     a, 1H
+00CD	449C	xorm    a, ra0c
+00CE	5B9C	rrc     ra0c
+00CF	5F1C	clr     ra0c
+00D0	5B9C	rrc     ra0c
+00D1	3794	clr     PA7
+00D2	471C	mov     a, ra0c
+00D3	0594	orm     a, PA
+				_L29:
+00D4	471B	mov     a, r20c
+00D5	008A	mov     STATUS, a
+00D6	471A	mov     a, r10c
+00D7	0004	reti
+				;171	    }
+				;172		  
+				;173		}
+				;174	//===========================蜂鸣器工作=========================================//
+				;175	
+				;176	//===========================主函数=========================================//		
+				;177		void main()
+				;178		{
+				@code .SECTION 'CODE'
+				include HT66F0185.inc
+0000	2801	jmp     _main_startup1
+				@start .SECTION 'CODE'
+				_main_startup1:
+				@start .SECTION 'CODE'
+0001	28D8	jmp     _main
+				;179		   GCC_DELAY(100);  //延时待系统稳定   
+				_main:
+				_main:
+00D8	0F18	mov     a, 18H
+00D9	2016	call    L0016
+				;180		   Init_clock();    //初始化时钟
+00DA	2093	call    _Init_clock
+				;181	//======================端口初始化==============================//	   
+				;182		   GPIOA_INIT(GPIO_Pin_All,GPIO_Mode_OUT,DISABLE,RESET);
+00DB	5F1F	clr     GPIO_Pin
+00DC	5F1E	clr     GPIO_BitVal
+00DD	5F1D	clr     t
+00DE	0FFF	mov     a, FFH
+00DF	2020	call    _GPIOA_INIT
+				;183		   GPIOB_INIT(GPIO_Pin_All,GPIO_Mode_OUT,RESET);
+00E0	5F1E	clr     GPIO_BitVal
+00E1	5F1D	clr     t
+00E2	0FFF	mov     a, FFH
+00E3	2039	call    _GPIOB_INIT
+				;184		   GPIOC_INIT(GPIO_Pin_All,GPIO_Mode_OUT,SET);	   
+00E4	0F01	mov     a, 1H
+00E5	409E	mov     GPIO_BitVal, a
+00E6	5F1D	clr     t
+00E7	0FFF	mov     a, FFH
+00E8	2052	call    _GPIOC_INIT
+				;185		   GPIOD_INIT(GPIO_Pin_All,GPIO_Mode_OUT,SET); 
+00E9	0F01	mov     a, 1H
+00EA	409E	mov     GPIO_BitVal, a
+00EB	5F1D	clr     t
+00EC	0FFF	mov     a, FFH
+00ED	206B	call    _GPIOD_INIT
+				;186		   
+				;187		   GPIOB_INIT(GPIO_Pin_3|GPIO_Pin_6,GPIO_Mode_OUT,SET);
+00EE	0F01	mov     a, 1H
+00EF	409E	mov     GPIO_BitVal, a
+00F0	5F1D	clr     t
+00F1	0F48	mov     a, 48H
+00F2	2039	call    _GPIOB_INIT
+				;188	     GPIOA_INIT(GPIO_Pin_1,GPIO_Mode_OUT,DISABLE,SET);
+00F3	0F01	mov     a, 1H
+00F4	409F	mov     GPIO_Pin, a
+00F5	5F1E	clr     GPIO_BitVal
+00F6	5F1D	clr     t
+00F7	0F02	mov     a, 2H
+00F8	2020	call    _GPIOA_INIT
+				;189	//======================数码管初始化==============================//
+				;190	//======================END====================================//
+				;191		   while(1)
+				;192			 {
+				;193		  	GCC_CLRWDT();   //喂狗  	
+				_L32:
+00F9	0001	clr     wdt
+00FA	28F9	jmp     _L32
+00FB	28FB	jmp     $
+				;194	//========================END==================================//
+				;195			 }
+				;196		}
+				data .SECTION 'DATA'
+				__iar1 DB DUP (?) ; __iar1
+				__mp1 DB DUP (?) ; __mp1
+				__bp DB DUP (?) ; __bp
+				__smod DB DUP (?) ; __smod
+				__integ DB DUP (?) ; __integ
+				__intc0 DB DUP (?) ; __intc0
+				__intc1 DB DUP (?) ; __intc1
+				__mfi0 DB DUP (?) ; __mfi0
+				__pa DB DUP (?) ; __pa
+				__pac DB DUP (?) ; __pac
+				__papu DB DUP (?) ; __papu
+				__tmpc DB DUP (?) ; __tmpc
+				__wdtc DB DUP (?) ; __wdtc
+				__tbc DB DUP (?) ; __tbc
+				__pb DB DUP (?) ; __pb
+				__pbc DB DUP (?) ; __pbc
+				__pbpu DB DUP (?) ; __pbpu
+				__tm0c0 DB DUP (?) ; __tm0c0
+				__tm0c1 DB DUP (?) ; __tm0c1
+				__tm0al DB DUP (?) ; __tm0al
+				__tm0ah DB DUP (?) ; __tm0ah
+				__cpc DB DUP (?) ; __cpc
+				__pc DB DUP (?) ; __pc
+				__pcc DB DUP (?) ; __pcc
+				__pcpu DB DUP (?) ; __pcpu
+				__acerl DB DUP (?) ; __acerl
+				__slcdc0 DB DUP (?) ; __slcdc0
+				__slcdc1 DB DUP (?) ; __slcdc1
+				__slcdc2 DB DUP (?) ; __slcdc2
+				__slcdc3 DB DUP (?) ; __slcdc3
+				__slcdc4 DB DUP (?) ; __slcdc4
+				__pd DB DUP (?) ; __pd
+				__pdc DB DUP (?) ; __pdc
+				__pdpu DB DUP (?) ; __pdpu
+				bBbSound DB DUP (?) ; bBbSound
+				bbCnt DB DUP (?) ; bbCnt
+				bbTime DB 2 DUP (?) ; bbTime
+				bbRam DB DUP (?) ; bbRam
+				value DB DUP (?) ; value
+				keystep DB DUP (?) ; keystep
+				step3 DB DUP (?) ; step3
+				step2 DB DUP (?) ; step2
+				step1 DB DUP (?) ; step1
+				step DB DUP (?) ; step
+				data DB DUP (?) ; data
+				t2s DB DUP (?) ; t2s
+				t10s DB DUP (?) ; t10s
+				tms4 DB DUP (?) ; tms4
+				tms3 DB DUP (?) ; tms3
+				tms2 DB DUP (?) ; tms2
+				tms1 DB DUP (?) ; tms1
+				tms DB 2 DUP (?) ; tms
+				uF3 DB DUP (?) ; uF3
+				uF2 DB DUP (?) ; uF2
+				uF1 DB DUP (?) ; uF1
+				ra DB DUP (?)
+				r11c DB DUP (?)
+				r21c DB DUP (?)
+				r10c DB DUP (?)
+				r20c DB DUP (?)
+				ra0c DB DUP (?)
+				t DB DUP (?) ; t
+				GPIO_BitVal DB DUP (?) ; GPIO_BitVal
+				GPIO_Pin DB DUP (?) ; GPIO_Pin
+				GPIO_Pin DB DUP (?) ; GPIO_Pin

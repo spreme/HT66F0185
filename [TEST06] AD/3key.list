@@ -1,0 +1,1667 @@
+				;file F:\HTMCU\MB-T006-HT66F0185\[TEST06] AD\3key.c
+				;1	#include "init.h"
+				;2	#include "HT66F0185.h"
+				;3	
+				;4	
+				;5	//===========================PA端口初始化函数=========================================//
+				;6		void GPIOA_INIT(u8 GPIO_Pin,u8 GPIO_Mode,u8 wakeup,u8 GPIO_BitVal)  //u8 为无符号字符型
+				;7		{
+				_GPIOA_INIT:
+				_GPIOA_INIT:
+00ED	40FA	mov     GPIO_Pin[0], a
+				;8			if ((u8)GPIO_Mode == (u8)0x01)   //pa为输入型时
+00EE	5777	sdza    GPIO_Mode[0]
+00EF	28F5	jmp     L00F5
+				;9			 {
+				;10			 	_pac|=GPIO_Pin;             //当pa引脚GPIO_Pin为输入，则置位pac ，同时设置上拉电阻
+00F0	477A	mov     a, GPIO_Pin[0]
+00F1	0595	orm     a, PAC
+				;11			 	_papu|=GPIO_Pin;
+00F2	477A	mov     a, GPIO_Pin[0]
+00F3	0596	orm     a, PAPU
+00F4	28FB	jmp     L00FB
+				;12			 }
+				;13			else
+				;14			 {
+				;15				_pac&=(u8)(~GPIO_Pin);      //将pa设置为输出型 
+				L00F5:
+00F5	417A	cpla    GPIO_Pin[0]
+00F6	40DC	mov     ra, a
+00F7	475C	mov     a, ra
+00F8	0695	andm    a, PAC
+				;16				_papu&=(u8)(~GPIO_Pin);	
+00F9	475C	mov     a, ra
+00FA	0696	andm    a, PAPU
+				;17			 }
+				;18			 
+				;19			if (GPIO_BitVal != RESET)       //重置
+				L00FB:
+00FB	50F9	sz      GPIO_BitVal[0]
+00FC	28FE	jmp     L00FE
+00FD	2901	jmp     L0101
+				;20			 {
+				;21			  	 _pa|=GPIO_Pin;
+				L00FE:
+00FE	477A	mov     a, GPIO_Pin[0]
+00FF	0594	orm     a, PA
+0100	2905	jmp     L0105
+				;22			 }
+				;23			else
+				;24			 {
+				;25			 	 _pa&=(u8)(~GPIO_Pin);   
+				L0101:
+0101	417A	cpla    GPIO_Pin[0]
+0102	40DC	mov     ra, a
+0103	475C	mov     a, ra
+0104	0694	andm    a, PA
+				L0105:
+0105	0003	ret
+				;26	
+				;27			 }	 	
+				;28		}
+				;29	//===========================PB端口初始化函数=========================================//
+				;30		void GPIOB_INIT(u8 GPIO_Pin,u8 GPIO_Mode,u8 GPIO_BitVal)
+				;31		{
+				_GPIOB_INIT:
+				_GPIOB_INIT:
+0106	40F9	mov     GPIO_Pin[0], a
+				;32			 
+				;33			if ((u8)GPIO_Mode == (u8)0x01)
+0107	5777	sdza    GPIO_Mode[0]
+0108	290E	jmp     L010E
+				;34			 {
+				;35			 	_pbc|=GPIO_Pin;
+0109	4779	mov     a, GPIO_Pin[0]
+010A	05A6	orm     a, PBC
+				;36			 	_pbpu|=GPIO_Pin;
+010B	4779	mov     a, GPIO_Pin[0]
+010C	05A7	orm     a, PBPU
+010D	2914	jmp     L0114
+				;37			 }
+				;38			else
+				;39			 {
+				;40				_pbc&=(u8)(~GPIO_Pin);
+				L010E:
+010E	4179	cpla    GPIO_Pin[0]
+010F	40DC	mov     ra, a
+0110	475C	mov     a, ra
+0111	06A6	andm    a, PBC
+				;41				_pbpu&=(u8)(~GPIO_Pin);	
+0112	475C	mov     a, ra
+0113	06A7	andm    a, PBPU
+				;42			 }
+				;43			 
+				;44			if (GPIO_BitVal != RESET)
+				L0114:
+0114	50F8	sz      GPIO_BitVal[0]
+0115	2917	jmp     L0117
+0116	291A	jmp     L011A
+				;45			 {
+				;46			  	 _pb|=GPIO_Pin;
+				L0117:
+0117	4779	mov     a, GPIO_Pin[0]
+0118	05A5	orm     a, PB
+0119	291E	jmp     L011E
+				;47			 }
+				;48			else
+				;49			 {
+				;50			 	 _pb&=(u8)(~GPIO_Pin);
+				L011A:
+011A	4179	cpla    GPIO_Pin[0]
+011B	40DC	mov     ra, a
+011C	475C	mov     a, ra
+011D	06A5	andm    a, PB
+				L011E:
+011E	0003	ret
+				;51			 }	 	
+				;52		}
+				;53	//===========================PC端口初始化函数=========================================//
+				;54		void GPIOC_INIT(u8 GPIO_Pin,u8 GPIO_Mode,u8 GPIO_BitVal)
+				;55		{
+				_GPIOC_INIT:
+				_GPIOC_INIT:
+011F	40F9	mov     GPIO_Pin[0], a
+				;56			 
+				;57			if ((u8)GPIO_Mode == (u8)0x01)
+0120	5777	sdza    GPIO_Mode[0]
+0121	2927	jmp     L0127
+				;58			 {
+				;59			 	_pcc|=GPIO_Pin;
+0122	4779	mov     a, GPIO_Pin[0]
+0123	05C2	orm     a, PCC
+				;60			 	_pcpu|=GPIO_Pin;
+0124	4779	mov     a, GPIO_Pin[0]
+0125	05C3	orm     a, PCPU
+0126	292D	jmp     L012D
+				;61			 }
+				;62			else
+				;63			 {
+				;64				_pcc&=(u8)(~GPIO_Pin);
+				L0127:
+0127	4179	cpla    GPIO_Pin[0]
+0128	40DC	mov     ra, a
+0129	475C	mov     a, ra
+012A	06C2	andm    a, PCC
+				;65				_pcpu&=(u8)(~GPIO_Pin);	
+012B	475C	mov     a, ra
+012C	06C3	andm    a, PCPU
+				;66			 }
+				;67			 
+				;68			if (GPIO_BitVal != RESET)
+				L012D:
+012D	50F8	sz      GPIO_BitVal[0]
+012E	2930	jmp     L0130
+012F	2933	jmp     L0133
+				;69			 {
+				;70			  	 _pc|=GPIO_Pin;
+				L0130:
+0130	4779	mov     a, GPIO_Pin[0]
+0131	05C1	orm     a, PC
+0132	2937	jmp     L0137
+				;71			 }
+				;72			else
+				;73			 {
+				;74			 	 _pc&=(u8)(~GPIO_Pin);
+				L0133:
+0133	4179	cpla    GPIO_Pin[0]
+0134	40DC	mov     ra, a
+0135	475C	mov     a, ra
+0136	06C1	andm    a, PC
+				L0137:
+0137	0003	ret
+				;75			 }	 	
+				;76		}
+				;77	
+				;78	//===========================PD端口初始化函数=========================================//
+				;79		void GPIOD_INIT(u8 GPIO_Pin,u8 GPIO_Mode,u8 GPIO_BitVal)
+				;80		{
+				_GPIOD_INIT:
+				_GPIOD_INIT:
+0138	40F9	mov     GPIO_Pin[0], a
+				;81			 
+				;82			if ((u8)GPIO_Mode == (u8)0x01)
+0139	5777	sdza    GPIO_Mode[0]
+013A	2940	jmp     L0140
+				;83			 {
+				;84			 	_pdc|=GPIO_Pin;
+013B	4779	mov     a, GPIO_Pin[0]
+013C	05D3	orm     a, PDC
+				;85			 	_pdpu|=GPIO_Pin;
+013D	4779	mov     a, GPIO_Pin[0]
+013E	05D4	orm     a, PDPU
+013F	2946	jmp     L0146
+				;86			 }
+				;87			else
+				;88			 {
+				;89				_pdc&=(u8)(~GPIO_Pin);
+				L0140:
+0140	4179	cpla    GPIO_Pin[0]
+0141	40DC	mov     ra, a
+0142	475C	mov     a, ra
+0143	06D3	andm    a, PDC
+				;90				_pdpu&=(u8)(~GPIO_Pin);	
+0144	475C	mov     a, ra
+0145	06D4	andm    a, PDPU
+				;91			 }
+				;92			 
+				;93			if (GPIO_BitVal != RESET)
+				L0146:
+0146	50F8	sz      GPIO_BitVal[0]
+0147	2949	jmp     L0149
+0148	294C	jmp     L014C
+				;94			 {
+				;95			  	 _pd|=GPIO_Pin;
+				L0149:
+0149	4779	mov     a, GPIO_Pin[0]
+014A	05D2	orm     a, PD
+014B	2950	jmp     L0150
+				;96			 }
+				;97			else
+				;98			 {
+				;99			 	 _pd&=(u8)(~GPIO_Pin);
+				L014C:
+014C	4179	cpla    GPIO_Pin[0]
+014D	40DC	mov     ra, a
+014E	475C	mov     a, ra
+014F	06D2	andm    a, PD
+				L0150:
+0150	0003	ret
+				;100			 }	 	
+				;101		}
+				;102		
+				;103	//===========================数据存储区使能配置=========================================//
+				;104	void clr_ram_en(unsigned char t)
+				;105	{
+				_clr_ram_en:
+				_clr_ram_en:
+0151	40DC	mov     ra, a
+0152	40F7	mov     t[0], a
+				;106		_dmbp0 = t;
+0153	0F01	mov     a, 1H
+0154	46DC	andm    a, ra
+0155	3404	clr     DMBP0
+0156	475C	mov     a, ra
+0157	0584	orm     a, BP
+				;107		_mp1 = 0x80;
+0158	0F80	mov     a, 80H
+0159	0083	mov     MP1, a
+				;108		while(_mp1!=0)
+015A	295D	jmp     L015D
+				L015D:
+015D	1083	sz      MP1
+015E	295B	jmp     L015B
+015F	0003	ret
+				;109		{
+				;110			_iar1 = 0;
+				L015B:
+015B	1F02	clr     __iar1[0]
+				;111			_mp1++;
+015C	1483	inc     MP1
+				;112		}
+				;113	}	
+				;114	//===========================时钟初始化函数=========================================//
+				;115		void Init_clock(void)
+				;116		{
+				;117	  	_smod=0x01;            //选择gao速时钟为系统时钟 内部8Mhz
+				_Init_clock:
+				_Init_clock:
+0160	0F01	mov     a, 1H
+0161	008B	mov     SMOD, a
+				;118	  	while(!_hto);          //等待高速震荡器就位
+				_L27:
+0162	390B	snz     HTO
+0163	2962	jmp     _L27
+				;119	  	_wdtc=0x57;            //使能看门狗
+0164	0F57	mov     a, 57H
+0165	009A	mov     WDTC, a
+				;120	  	_sadc0=0x23;           //选择通道AN3
+0166	0F23	mov     a, 23H
+0167	00A2	mov     SADC0, a
+				;121	  	_sadc1=0x03;           //外部模拟通道输入，时钟源fsys/2
+0168	0F03	mov     a, 3H
+0169	00A3	mov     SADC1, a
+				;122	  	_sadc2=0x00;           //内部VDD作为参考电压
+016A	1F24	clr     SADC2
+				;123	  	_acerl=0x08;		       //A/D输入AN3
+016B	0F08	mov     a, 8H
+016C	00C4	mov     ACERL, a
+				;124	  	 	
+				;125	  	_tmpc=0x00;            //取消相关引脚用作TM 输入/ 输出，相关引脚保持原来功能
+016D	1F19	clr     TMPC
+				;126	  	_cpc=0x08;             //比较器输出仅内部使用
+016E	0F08	mov     a, 8H
+016F	00BF	mov     CPC, a
+				;127	  	_integ=0x00;			     //所有外部中断边沿控制除能
+0170	1F0D	clr     INTEG
+				;128	  	_int0e=0;				       //INTO中断除能
+0171	348E	clr     INT0E
+				;129	  	_emi = 0;   			     //关闭总中断
+0172	340E	clr     EMI
+				;130	
+				;131	//=========LCD控制寄存器引脚设定为其他功能=====================//		
+				;132			_slcdc0 = 0;	
+0173	1F4A	clr     SLCDC0
+				;133			_slcdc1 = 0;
+0174	1F4B	clr     SLCDC1
+				;134			_slcdc2 = 0;
+0175	1F4C	clr     SLCDC2
+				;135			_slcdc3 = 0;
+0176	1F4D	clr     SLCDC3
+				;136			_slcdc4 = 0;
+0177	1F4E	clr     SLCDC4
+				;137	/***********TM0************/
+				;138	  	_tm0c0=0x10;			//选择系统时钟fsys作为t1时钟fint=8MHZ	
+0178	0F10	mov     a, 10H
+0179	00AF	mov     TM0C0, a
+				;139	  	_tm0c1=0xc1;			//定时模式，a匹配
+017A	0FC1	mov     a, C1H
+017B	00B0	mov     TM0C1, a
+				;140	  	_tm0al=0xf8;			//定时初值  0x5f8=1528
+017C	0FF8	mov     a, F8H
+017D	00B3	mov     TM0AL, a
+				;141	  	_tm0ah=0x05;            //1528/8MHZ=191us
+017E	0F05	mov     a, 5H
+017F	00B4	mov     TM0AH, a
+				;142	  	_t0af=0;				//清t中断标志位
+0180	3691	clr     T0AF
+				;143	  	_t0on=1;				//启动定时
+0181	31AF	set     T0ON
+				;144	  	_mf0e=1;				//开多功能中断
+0182	318E	set     MF0E
+				;145	  	_t0ae=1;	    		//开t0中断
+0183	3091	set     T0AE
+				;146	/***********时基0************/	  
+				;147		  	//_tbc=0b10000111;       //时基定时器配置使能 fTBC时钟源 LXT快速启振
+				;148		  	//_tb0f=0;               //时基0中断请求标志清零
+				;149		  	//_tb0e=1;               //时基0中断控制位使能
+				;150		  	
+				;151		  	_emi=1;		  			//开总中断
+0184	300E	set     EMI
+				;152		  	
+				;153		  	GCC_CLRWDT();	       //清除看门狗
+0185	0001	clr     wdt
+				;154			clr_ram_en(0);         //数据存储区选择BANK0
+0186	0F00	mov     a, 0H
+0187	2151	call    _clr_ram_en
+				;155			clr_ram_en(1);         //数据存储区选择BANK1
+0188	0F01	mov     a, 1H
+0189	2151	call    _clr_ram_en
+018A	0003	ret
+				;156	
+				;157		}
+				;158	
+				;159	
+				;160	//===========================定时器0中断入口=========================================//
+				;161		DEFINE_ISR(isr_TM0, 0x0c)   //定时器0中断函数  191us
+				;162		{
+				@isr_TM0_code .SECTION 'CODE'
+000C	40F4	mov     r10c, a
+000D	070A	mov     a, STATUS
+000E	40F5	mov     r20c, a
+000F	298B	jmp     _isr_TM0
+				L0010:
+				@dummy12 .SECTION 'CODE'
+0010	20D1	call    L00D1
+0011	5F6E	clr     rh[11]
+0012	5F6F	clr     rh[12]
+0013	5F70	clr     rh[13]
+0014	0F7A	mov     a, 7AH
+0015	436D	add     a, rh[10]
+0016	43E7	addm    a, rh[4]
+0017	5B68	rrca    rh[5]
+0018	44E8	xorm    a, rh[5]
+0019	0F07	mov     a, 7H
+001A	40ED	mov     rh[10], a
+				L001B:
+001B	5BEB	rrc     rh[8]
+001C	5BEA	rrc     rh[7]
+001D	380A	snz     C
+001E	2825	jmp     L0025
+001F	4764	mov     a, rh[1]
+0020	43EE	addm    a, rh[11]
+0021	4765	mov     a, rh[2]
+0022	53EF	adcm    a, rh[12]
+0023	4766	mov     a, rh[3]
+0024	53F0	adcm    a, rh[13]
+				L0025:
+0025	340A	clr     C
+0026	5AE4	rlc     rh[1]
+0027	5AE5	rlc     rh[2]
+0028	5AE6	rlc     rh[3]
+0029	57ED	sdz     rh[10]
+002A	281B	jmp     L001B
+002B	0F09	mov     a, 9H
+002C	40ED	mov     rh[10], a
+002D	2832	jmp     L0032
+				L002E:
+002E	340A	clr     C
+002F	5BF0	rrc     rh[13]
+0030	5BEF	rrc     rh[12]
+0031	5BEE	rrc     rh[11]
+				L0032:
+0032	5BEB	rrc     rh[8]
+0033	5BEA	rrc     rh[7]
+0034	380A	snz     C
+0035	283C	jmp     L003C
+0036	4764	mov     a, rh[1]
+0037	43EE	addm    a, rh[11]
+0038	4765	mov     a, rh[2]
+0039	53EF	adcm    a, rh[12]
+003A	4766	mov     a, rh[3]
+003B	53F0	adcm    a, rh[13]
+				L003C:
+003C	57ED	sdz     rh[10]
+003D	282E	jmp     L002E
+003E	476E	mov     a, rh[11]
+003F	40E4	mov     rh[1], a
+0040	476F	mov     a, rh[12]
+0041	40E5	mov     rh[2], a
+0042	4770	mov     a, rh[13]
+0043	40E6	mov     rh[3], a
+0044	28A2	jmp     L00A2
+				L0045:
+0045	20D1	call    L00D1
+0046	5F6E	clr     rh[11]
+0047	5F6F	clr     rh[12]
+0048	5F70	clr     rh[13]
+0049	50ED	sz      rh[10]
+004A	284D	jmp     L004D
+004B	7169	set     rh[6].2
+004C	2870	jmp     L0070
+				L004D:
+004D	5067	sza     rh[4]
+004E	2850	jmp     L0050
+004F	2870	jmp     L0070
+				L0050:
+0050	426D	sub     a, rh[10]
+0051	0B77	add     a, 77H
+0052	40E7	mov     rh[4], a
+0053	5B68	rrca    rh[5]
+0054	44E8	xorm    a, rh[5]
+0055	0F18	mov     a, 18H
+0056	40ED	mov     rh[10], a
+				L0057:
+0057	4764	mov     a, rh[1]
+0058	426A	sub     a, rh[7]
+0059	4765	mov     a, rh[2]
+005A	526B	sbc     a, rh[8]
+005B	4766	mov     a, rh[3]
+005C	526C	sbc     a, rh[9]
+005D	380A	snz     C
+005E	2867	jmp     L0067
+005F	40E6	mov     rh[3], a
+0060	4764	mov     a, rh[1]
+0061	426A	sub     a, rh[7]
+0062	40E4	mov     rh[1], a
+0063	4765	mov     a, rh[2]
+0064	526B	sbc     a, rh[8]
+0065	40E5	mov     rh[2], a
+0066	300A	set     C
+				L0067:
+0067	5AEE	rlc     rh[11]
+0068	5AEF	rlc     rh[12]
+0069	5AF0	rlc     rh[13]
+006A	340A	clr     C
+006B	5AE4	rlc     rh[1]
+006C	5AE5	rlc     rh[2]
+006D	5AE6	rlc     rh[3]
+006E	57ED	sdz     rh[10]
+006F	2857	jmp     L0057
+				L0070:
+0070	476E	mov     a, rh[11]
+0071	40E4	mov     rh[1], a
+0072	476F	mov     a, rh[12]
+0073	40E5	mov     rh[2], a
+0074	4770	mov     a, rh[13]
+0075	40E6	mov     rh[3], a
+0076	28A2	jmp     L00A2
+				L0077:
+0077	20DB	call    L00DB
+0078	5F71	clr     rh[14]
+0079	4767	mov     a, rh[4]
+007A	0A7F	sub     a, 7FH
+007B	380A	snz     C
+007C	28E3	jmp     L00E3
+007D	0A0F	sub     a, FH
+				L007E:
+007E	40E7	mov     rh[4], a
+007F	380A	snz     C
+0080	288F	jmp     L008F
+0081	0F10	mov     a, 10H
+0082	4267	sub     a, rh[4]
+0083	380A	snz     C
+0084	28E3	jmp     L00E3
+0085	288C	jmp     L008C
+				L0086:
+0086	55E7	dec     rh[4]
+0087	340A	clr     C
+0088	5AE4	rlc     rh[1]
+0089	5AE5	rlc     rh[2]
+008A	5AE6	rlc     rh[3]
+008B	5AF1	rlc     rh[14]
+				L008C:
+008C	50E7	sz      rh[4]
+008D	2886	jmp     L0086
+008E	2894	jmp     L0094
+				L008F:
+008F	340A	clr     C
+0090	5BE5	rrc     rh[2]
+0091	5BE4	rrc     rh[1]
+0092	1685	siz     ACC
+0093	288F	jmp     L008F
+				L0094:
+0094	7868	snz     rh[5].0
+0095	28A1	jmp     L00A1
+0096	41E4	cpl     rh[1]
+0097	41E5	cpl     rh[2]
+0098	41E6	cpl     rh[3]
+0099	41F1	cpl     rh[14]
+009A	54E4	inc     rh[1]
+009B	3D0A	sz      Z
+009C	54E5	inc     rh[2]
+009D	3D0A	sz      Z
+009E	54E6	inc     rh[3]
+009F	3D0A	sz      Z
+00A0	54F1	inc     rh[14]
+				L00A1:
+00A1	0003	ret
+				L00A2:
+00A2	50E7	sz      rh[4]
+00A3	28A5	jmp     L00A5
+00A4	28E3	jmp     L00E3
+				L00A5:
+00A5	50E6	sz      rh[3]
+00A6	28B9	jmp     L00B9
+00A7	4764	mov     a, rh[1]
+00A8	4565	or      a, rh[2]
+00A9	3D0A	sz      Z
+00AA	28E5	jmp     L00E5
+				L00AB:
+00AB	7FE5	sz      rh[2].7
+00AC	28C8	jmp     L00C8
+00AD	57E7	sdz     rh[4]
+00AE	28B1	jmp     L00B1
+00AF	7069	set     rh[6].0
+00B0	28E3	jmp     L00E3
+				L00B1:
+00B1	340A	clr     C
+00B2	5AE4	rlc     rh[1]
+00B3	5AE5	rlc     rh[2]
+00B4	28AB	jmp     L00AB
+				L00B5:
+00B5	340A	clr     C
+00B6	5BE6	rrc     rh[3]
+00B7	5BE5	rrc     rh[2]
+00B8	5BE4	rrc     rh[1]
+				L00B9:
+00B9	54E7	inc     rh[4]
+00BA	5667	siza    rh[4]
+00BB	28BE	jmp     L00BE
+00BC	70E9	set     rh[6].1
+00BD	2806	jmp     L0006
+				L00BE:
+00BE	5766	sdza    rh[3]
+00BF	28B5	jmp     L00B5
+00C0	300A	set     C
+00C1	53E4	adcm    a, rh[1]
+00C2	53E5	adcm    a, rh[2]
+00C3	3C0A	sz      C
+00C4	54E7	inc     rh[4]
+00C5	5BE6	rrc     rh[3]
+00C6	5BE5	rrc     rh[2]
+00C7	5BE4	rrc     rh[1]
+				L00C8:
+00C8	50E7	sz      rh[4]
+00C9	28CB	jmp     L00CB
+00CA	28E3	jmp     L00E3
+				L00CB:
+00CB	5BE8	rrc     rh[5]
+00CC	5B67	rrca    rh[4]
+00CD	40E6	mov     rh[3], a
+00CE	380A	snz     C
+00CF	77E5	clr     rh[2].7
+00D0	0003	ret
+				L00D1:
+00D1	5A6B	rlca    rh[8]
+00D2	5A6C	rlca    rh[9]
+00D3	5AE8	rlc     rh[5]
+00D4	40ED	mov     rh[10], a
+00D5	5F6C	clr     rh[9]
+00D6	73EB	set     rh[8].7
+00D7	50ED	sz      rh[10]
+00D8	28DB	jmp     L00DB
+00D9	5F6A	clr     rh[7]
+00DA	5F6B	clr     rh[8]
+				L00DB:
+00DB	5A65	rlca    rh[2]
+00DC	5A66	rlca    rh[3]
+00DD	5AE8	rlc     rh[5]
+00DE	40E7	mov     rh[4], a
+00DF	5F66	clr     rh[3]
+00E0	73E5	set     rh[2].7
+00E1	50E7	sz      rh[4]
+00E2	0003	ret
+				L00E3:
+00E3	5F64	clr     rh[1]
+00E4	5F65	clr     rh[2]
+				L00E5:
+00E5	5F66	clr     rh[3]
+00E6	0003	ret
+00E7	063F	and     a, CPC
+00E8	4F5B	dc	04F5BH
+00E9	6D66	jmp     D66H
+00EA	077D	mov     a, __pdpu[41]
+00EB	6F7F	jmp     F7FH
+00EC	007E	jmp     L007E
+				;163	    _t0af=0;       //t0中断请求标志清零
+				_isr_TM0:
+				_isr_TM0:
+018B	3691	clr     T0AF
+				;164	    _emi=1;        //开总中断
+018C	300E	set     EMI
+				;165	    step3++;
+018D	54BE	inc     step3[0]
+				;166	    tms++;
+018E	54C9	inc     tms[0]
+018F	3D0A	sz      Z
+0190	54CA	inc     tms[1]
+				;167			if(step3>5)
+0191	0F05	mov     a, 5H
+0192	423E	sub     a, step3[0]
+0193	3C0A	sz      C
+0194	2A27	jmp     _L29
+				;168			 {
+				;169				step3=0;		
+0195	5F3E	clr     step3[0]
+				;170				bitcode1=1; 						//pb0
+0196	3052	set     PD0
+				;171				bitcode2=1; 						//pb1
+0197	30D2	set     PD1
+				;172				bitcode3=1; 						//pb2
+0198	3152	set     PD2
+				;173				bitcode4=1;							//pd3
+0199	31D2	set     PD3
+				;174				
+				;175				a=1;								//pc2
+019A	3041	set     PC0
+				;176				b=1;								//pb6
+019B	30C1	set     PC1
+				;177				c=1;								//pc4
+019C	3141	set     PC2
+				;178				d=1;								//pc5
+019D	31C1	set     PC3
+				;179				e=1;								//pa1
+019E	3241	set     PC4
+				;180				f=1;								//pa3
+019F	32C1	set     PC5
+				;181				g=1;				 				//pa6
+01A0	3341	set     PC6
+				;182				dp=1;               
+01A1	3094	set     PA1
+				;183				wei++;
+01A2	54B7	inc     wei[0]
+				;184			  switch (wei)						//wei 为uchar变量
+01A3	4737	mov     a, wei[0]
+01A4	40F6	mov     _isr_TM0_2, a
+01A5	4776	mov     a, _isr_TM0_2
+01A6	0A01	sub     a, 1H
+01A7	3D0A	sz      Z
+01A8	29C6	jmp     _L30
+01A9	0A01	sub     a, 1H
+01AA	3D0A	sz      Z
+01AB	29D4	jmp     _L31
+01AC	4776	mov     a, _isr_TM0_2
+01AD	0A03	sub     a, 3H
+01AE	3D0A	sz      Z
+01AF	29E2	jmp     _L32
+01B0	0A01	sub     a, 1H
+01B1	3D0A	sz      Z
+01B2	29F0	jmp     _L33
+01B3	4776	mov     a, _isr_TM0_2
+01B4	0A05	sub     a, 5H
+01B5	3D0A	sz      Z
+01B6	29FE	jmp     _L34
+01B7	0A01	sub     a, 1H
+01B8	3D0A	sz      Z
+01B9	2A0C	jmp     _L35
+01BA	4776	mov     a, _isr_TM0_2
+01BB	0A07	sub     a, 7H
+01BC	3D0A	sz      Z
+01BD	2A1A	jmp     _L36
+01BE	4776	mov     a, _isr_TM0_2
+01BF	0A08	sub     a, 8H
+01C0	390A	snz     Z
+01C1	2A27	jmp     _L29
+				;185	         {
+				;186	          case 1: //a
+				;187	              {
+				;188									if(Dig1a)bitcode1=0; 
+				_L30:
+01C6	7858	snz     uF4[0].0
+01C7	29C9	jmp     _L38
+01C8	3452	clr     PD0
+				;189									if(Dig2a)bitcode2=0; 
+				_L38:
+01C9	7857	snz     uF5[0].0
+01CA	29CC	jmp     _L39
+01CB	34D2	clr     PD1
+				;190									if(Dig3a)bitcode3=0; 
+				_L39:
+01CC	7856	snz     uF6[0].0
+01CD	29CF	jmp     _L40
+01CE	3552	clr     PD2
+				;191									if(Dig4a)bitcode4=0;
+				_L40:
+01CF	7855	snz     uF7[0].0
+01D0	29D2	jmp     _L41
+01D1	35D2	clr     PD3
+				;192									a=0;
+				_L41:
+01D2	3441	clr     PC0
+				;193	              }break;
+01D3	2A27	jmp     _L29
+				;194	          case 2: //b
+				;195	              {
+				;196									if(Dig1b)bitcode1=0; 
+				_L31:
+01D4	78D8	snz     uF4[0].1
+01D5	29D7	jmp     _L42
+01D6	3452	clr     PD0
+				;197									if(Dig2b)bitcode2=0; 
+				_L42:
+01D7	78D7	snz     uF5[0].1
+01D8	29DA	jmp     _L43
+01D9	34D2	clr     PD1
+				;198									if(Dig3b)bitcode3=0; 
+				_L43:
+01DA	78D6	snz     uF6[0].1
+01DB	29DD	jmp     _L44
+01DC	3552	clr     PD2
+				;199									if(Dig4b)bitcode4=0; 
+				_L44:
+01DD	78D5	snz     uF7[0].1
+01DE	29E0	jmp     _L45
+01DF	35D2	clr     PD3
+				;200									b=0;		
+				_L45:
+01E0	34C1	clr     PC1
+				;201	              }break;
+01E1	2A27	jmp     _L29
+				;202		        case 3: //c
+				;203	              {
+				;204									if(Dig1c)bitcode1=0; 
+				_L32:
+01E2	7958	snz     uF4[0].2
+01E3	29E5	jmp     _L46
+01E4	3452	clr     PD0
+				;205									if(Dig2c)bitcode2=0; 
+				_L46:
+01E5	7957	snz     uF5[0].2
+01E6	29E8	jmp     _L47
+01E7	34D2	clr     PD1
+				;206									if(Dig3c)bitcode3=0; 
+				_L47:
+01E8	7956	snz     uF6[0].2
+01E9	29EB	jmp     _L48
+01EA	3552	clr     PD2
+				;207									if(Dig4c)bitcode4=0; 
+				_L48:
+01EB	7955	snz     uF7[0].2
+01EC	29EE	jmp     _L49
+01ED	35D2	clr     PD3
+				;208									c=0;		
+				_L49:
+01EE	3541	clr     PC2
+				;209	              } break ;
+01EF	2A27	jmp     _L29
+				;210		        case 4: //d
+				;211	              {
+				;212									if(Dig1d)bitcode1=0; 
+				_L33:
+01F0	79D8	snz     uF4[0].3
+01F1	29F3	jmp     _L50
+01F2	3452	clr     PD0
+				;213									if(Dig2d)bitcode2=0; 
+				_L50:
+01F3	79D7	snz     uF5[0].3
+01F4	29F6	jmp     _L51
+01F5	34D2	clr     PD1
+				;214									if(Dig3d)bitcode3=0; 
+				_L51:
+01F6	79D6	snz     uF6[0].3
+01F7	29F9	jmp     _L52
+01F8	3552	clr     PD2
+				;215									if(Dig4d)bitcode4=0;
+				_L52:
+01F9	79D5	snz     uF7[0].3
+01FA	29FC	jmp     _L53
+01FB	35D2	clr     PD3
+				;216									d=0;		
+				_L53:
+01FC	35C1	clr     PC3
+				;217	              }break ;
+01FD	2A27	jmp     _L29
+				;218	          case 5: //e
+				;219	              {
+				;220									if(Dig1e)bitcode1=0; 
+				_L34:
+01FE	7A58	snz     uF4[0].4
+01FF	2A01	jmp     _L54
+0200	3452	clr     PD0
+				;221									if(Dig2e)bitcode2=0; 
+				_L54:
+0201	7A57	snz     uF5[0].4
+0202	2A04	jmp     _L55
+0203	34D2	clr     PD1
+				;222									if(Dig3e)bitcode3=0; 
+				_L55:
+0204	7A56	snz     uF6[0].4
+0205	2A07	jmp     _L56
+0206	3552	clr     PD2
+				;223									if(Dig4e)bitcode4=0;
+				_L56:
+0207	7A55	snz     uF7[0].4
+0208	2A0A	jmp     _L57
+0209	35D2	clr     PD3
+				;224									e=0;	
+				_L57:
+020A	3641	clr     PC4
+				;225	              }break ;
+020B	2A27	jmp     _L29
+				;226	          case 6: //f
+				;227	              {
+				;228									if(Dig1f)bitcode1=0; 
+				_L35:
+020C	7AD8	snz     uF4[0].5
+020D	2A0F	jmp     _L58
+020E	3452	clr     PD0
+				;229									if(Dig2f)bitcode2=0; 
+				_L58:
+020F	7AD7	snz     uF5[0].5
+0210	2A12	jmp     _L59
+0211	34D2	clr     PD1
+				;230									if(Dig3f)bitcode3=0; 
+				_L59:
+0212	7AD6	snz     uF6[0].5
+0213	2A15	jmp     _L60
+0214	3552	clr     PD2
+				;231									if(Dig4f)bitcode4=0;
+				_L60:
+0215	7AD5	snz     uF7[0].5
+0216	2A18	jmp     _L61
+0217	35D2	clr     PD3
+				;232									f=0;		
+				_L61:
+0218	36C1	clr     PC5
+				;233	              }break ;
+0219	2A27	jmp     _L29
+				;234	          case 7: //g
+				;235	              {
+				;236									if(Dig1g)bitcode1=0; 
+				_L36:
+021A	7B58	snz     uF4[0].6
+021B	2A1D	jmp     _L62
+021C	3452	clr     PD0
+				;237									if(Dig2g)bitcode2=0; 
+				_L62:
+021D	7B57	snz     uF5[0].6
+021E	2A20	jmp     _L63
+021F	34D2	clr     PD1
+				;238									if(Dig3g)bitcode3=0; 
+				_L63:
+0220	7B56	snz     uF6[0].6
+0221	2A23	jmp     _L64
+0222	3552	clr     PD2
+				;239									if(Dig4g)bitcode4=0;
+				_L64:
+0223	7B55	snz     uF7[0].6
+0224	2A26	jmp     _L65
+0225	35D2	clr     PD3
+				;240									g=0;	
+				_L65:
+0226	3741	clr     PC6
+				;241	              }break ;
+				;242	              
+				;243	          case 8: //dp
+				;244	             {
+				;245	          	    wei=0;
+01C2	5F37	clr     wei[0]
+				;246	          	    bitcode1=0;
+01C3	3452	clr     PD0
+				;247	          	    dp=0;
+01C4	3494	clr     PA1
+01C5	2A27	jmp     _L29
+				;248	          	 }
+				;249		       }
+				;250			 }
+				;251			 if(tms>2500)
+				_L29:
+0227	0FC4	mov     a, C4H
+0228	4249	sub     a, tms[0]
+0229	0F09	mov     a, 9H
+022A	524A	sbc     a, tms[1]
+022B	3C0A	sz      C
+022C	2A30	jmp     _L28
+				;252			 {
+				;253			 	tms=0;
+022D	5F49	clr     tms[0]
+022E	5F4A	clr     tms[1]
+				;254			 	t10msflag=1;
+022F	705B	set     uF1[0].0
+				_L28:
+0230	4775	mov     a, r20c
+0231	008A	mov     STATUS, a
+0232	4774	mov     a, r10c
+0233	0004	reti
+				;255			 }			
+				;256		}
+				;257	
+				;258	u16 Get_AD()
+				;259	{
+				_Get_AD:
+				_Get_AD:
+0234	0F0A	mov     a, AH
+0235	40E3	mov     rh, a
+				;260		u8 i,j,AD_Count;
+				;261		u16 AD;
+				;262		for(AD_Count=0;AD_Count<10;AD_Count++)
+0236	5F5C	clr     ra
+026E	54DC	inc     ra
+026F	57E3	sdz     rh
+0270	2A37	jmp     _L156
+0271	475D	mov     a, rb
+0272	40A2	mov     ADL[0], a
+0273	475E	mov     a, rc
+0274	40A3	mov     ADL[1], a
+0275	4761	mov     a, rf
+0276	40A4	mov     ADH[0], a
+0277	4762	mov     a, rg
+0278	40A5	mov     ADH[1], a
+0279	470C	mov     a, temp[0]
+027A	40F9	mov     GPIO_Pin, a
+027B	470D	mov     a, temp[1]
+027C	40FA	mov     GPIO_Pin, a
+027D	0F09	mov     a, 9H
+027E	40F7	mov     _Get_AD_2, a
+027F	0F01	mov     a, 1H
+0280	40E3	mov     rh, a
+				;263		{	
+				;264		  	_start=0; 
+				_L156:
+0237	37A2	clr     START
+				;265		    _start=1;  
+0238	33A2	set     START
+				;266		    _start=0;				//启动AD转换	          
+0239	37A2	clr     START
+				;267		    while(_adbz);           //等待转换完成
+				_L153:
+023A	3F22	sz      ADBZ
+023B	2A3A	jmp     _L153
+				;268		    //ADL= _sadol;
+				;269		    //ADH= _sadoh;
+				;270		    //ADH=ADH<<8;
+				;271		    //AD_Mun[AD_Count]=ADH+ADL;	 //处理AD的结果	     
+				;272	      ADL= _sadol;
+023C	0720	mov     a, SADOL
+023D	40DD	mov     rb, a
+023E	5F5E	clr     rc
+				;273		    ADH= _sadoh;
+023F	0721	mov     a, SADOH
+0240	40E1	mov     rf, a
+0241	5F62	clr     rg
+				;274		    AD_Mun[AD_Count]=((u16)ADH<<4) + ((ADL>>4)&0x0f);	 //处理AD的结果   	   
+0242	475C	mov     a, ra
+0243	40DF	mov     rd, a
+0244	5F60	clr     re
+0245	340A	clr     C
+0246	5A5F	rlca    rd
+0247	40F7	mov     _Get_AD_2, a
+0248	5A60	rlca    re
+0249	40F8	mov     GPIO_BitVal, a
+024A	475D	mov     a, rb
+024B	40DF	mov     rd, a
+024C	475E	mov     a, rc
+024D	40E0	mov     re, a
+024E	0F04	mov     a, 4H
+				_LI5:
+024F	340A	clr     C
+0250	5BE0	rrc     re
+0251	5BDF	rrc     rd
+0252	1785	sdz     ACC
+0253	2A4F	jmp     _LI5
+0254	5162	swapa   rg
+0255	0EF0	and     a, F0H
+0256	40FA	mov     GPIO_Pin, a
+0257	5161	swapa   rf
+0258	0E0F	and     a, FH
+0259	45FA	orm     a, GPIO_Pin
+025A	5161	swapa   rf
+025B	0EF0	and     a, F0H
+025C	40F9	mov     GPIO_Pin, a
+025D	4779	mov     a, GPIO_Pin
+025E	43DF	addm    a, rd
+025F	477A	mov     a, GPIO_Pin
+0260	53E0	adcm    a, re
+0261	0F8E	mov     a, 8EH
+0262	4377	add     a, _Get_AD_2
+0263	0083	mov     MP1, a
+0264	0F00	mov     a, 0H
+0265	5378	adc     a, GPIO_BitVal
+0266	0081	mov     MP0, a
+0267	0701	mov     a, MP0
+0268	0084	mov     BP, a
+0269	475F	mov     a, rd
+026A	0082	mov     __iar1[0], a
+026B	1483	inc     MP1
+026C	4760	mov     a, re
+026D	0082	mov     __iar1[0], a
+				;275		}  	  	               	    
+				;276	  for(j=1;j<10;j++)   		//从小到大排序 冒泡排序
+				_L161:
+02DE	54E3	inc     rh
+02DF	57F7	sdz     _Get_AD_2
+02E0	2A81	jmp     _L155
+02E1	4779	mov     a, GPIO_Pin
+02E2	408C	mov     temp[0], a
+02E3	477A	mov     a, GPIO_Pin
+02E4	408D	mov     temp[1], a
+				;277	  { 
+				;278	    for(i=0;i<10-j;i++)  
+0282	4763	mov     a, rh
+0283	40DD	mov     rb, a
+0284	5F5E	clr     rc
+0285	0F0A	mov     a, AH
+0286	425D	sub     a, rb
+0287	40DF	mov     rd, a
+0288	0F00	mov     a, 0H
+0289	525E	sbc     a, rc
+028A	40E0	mov     re, a
+028B	475F	mov     a, rd
+028C	40FD	mov     GPIO_Pin[3], a
+028D	4760	mov     a, re
+028E	40FE	mov     GPIO_Pin[4], a
+				_L160:
+028F	475C	mov     a, ra
+0290	40DF	mov     rd, a
+0291	5F60	clr     re
+0292	475F	mov     a, rd
+0293	427D	sub     a, GPIO_Pin[3]
+0294	4760	mov     a, re
+0295	527E	sbc     a, GPIO_Pin[4]
+0296	1185	swap    ACC
+0297	040A	xor     a, STATUS
+0298	3985	snz     ACC.3
+0299	2ADE	jmp     _L161
+				_L157:
+02DC	54DC	inc     ra
+02DD	2A8F	jmp     _L160
+				;279	    {
+				;280		    if(AD_Mun[i]>AD_Mun[i+1])
+029A	340A	clr     C
+029B	5A5F	rlca    rd
+029C	40DD	mov     rb, a
+029D	5A60	rlca    re
+029E	40DE	mov     rc, a
+029F	0F8E	mov     a, 8EH
+02A0	435D	add     a, rb
+02A1	40FB	mov     GPIO_Pin[1], a
+02A2	0F00	mov     a, 0H
+02A3	535E	adc     a, rc
+02A4	40FC	mov     GPIO_Pin[2], a
+02A5	477B	mov     a, GPIO_Pin[1]
+02A6	0083	mov     MP1, a
+02A7	477C	mov     a, GPIO_Pin[2]
+02A8	0081	mov     MP0, a
+02A9	2417	call    L0417
+02AA	40DD	mov     rb, a
+02AB	2416	call    L0416
+02AC	40DE	mov     rc, a
+02AD	340A	clr     C
+02AE	5ADF	rlc     rd
+02AF	5AE0	rlc     re
+02B0	0F90	mov     a, 90H
+02B1	43DF	addm    a, rd
+02B2	0F00	mov     a, 0H
+02B3	53E0	adcm    a, re
+02B4	475F	mov     a, rd
+02B5	0083	mov     MP1, a
+02B6	4760	mov     a, re
+02B7	0081	mov     MP0, a
+02B8	2417	call    L0417
+02B9	40E1	mov     rf, a
+02BA	2416	call    L0416
+02BB	40E2	mov     rg, a
+02BC	4761	mov     a, rf
+02BD	425D	sub     a, rb
+02BE	4762	mov     a, rg
+02BF	525E	sbc     a, rc
+02C0	3C0A	sz      C
+02C1	2ADC	jmp     _L157
+				;281		    {
+				;282			    temp=AD_Mun[i];
+				;283			    AD_Mun[i]=AD_Mun[i+1];
+02C2	477B	mov     a, GPIO_Pin[1]
+02C3	0083	mov     MP1, a
+02C4	477C	mov     a, GPIO_Pin[2]
+02C5	0081	mov     MP0, a
+02C6	0701	mov     a, MP0
+02C7	0084	mov     BP, a
+02C8	4761	mov     a, rf
+02C9	0082	mov     __iar1[0], a
+02CA	1483	inc     MP1
+02CB	4762	mov     a, rg
+02CC	0082	mov     __iar1[0], a
+				;284			    AD_Mun[i+1]=temp;
+				_L155:
+0281	5F5C	clr     ra
+02CD	475F	mov     a, rd
+02CE	0083	mov     MP1, a
+02CF	4760	mov     a, re
+02D0	0081	mov     MP0, a
+02D1	0701	mov     a, MP0
+02D2	0084	mov     BP, a
+02D3	475D	mov     a, rb
+02D4	0082	mov     __iar1[0], a
+02D5	1483	inc     MP1
+02D6	475E	mov     a, rc
+02D7	0082	mov     __iar1[0], a
+02D8	475D	mov     a, rb
+02D9	40F9	mov     GPIO_Pin, a
+02DA	475E	mov     a, rc
+02DB	40FA	mov     GPIO_Pin, a
+				;285		    }	
+				;286	    }
+				;287	  }        
+				;288	  AD=AD_Mun[4];  				//取第5个值(中值)	            
+				;289		return AD;		
+				;290	}
+02E5	4716	mov     a, AD_Mun[8]
+02E6	40DC	mov     ra, a
+02E7	4717	mov     a, AD_Mun[9]
+02E8	40DD	mov     rb, a
+02E9	0003	ret
+				;291	
+				;292	
+				;293	//===========================主函数=========================================//		
+				;294		void main()
+				;295		{
+				@code .SECTION 'CODE'
+				include HT66F0185.inc
+0000	2801	jmp     _main_startup1
+				@start .SECTION 'CODE'
+				_main_startup1:
+				@start .SECTION 'CODE'
+0001	2AEA	jmp     _main
+				L0002:
+0002	5F66	clr     rh[3]
+0003	0F8E	mov     a, 8EH
+0004	40E7	mov     rh[4], a
+0005	28A2	jmp     L00A2
+				L0006:
+0006	5FE4	set     rh[1]
+0007	5FE5	set     rh[2]
+0008	5FE6	set     rh[3]
+0009	7868	snz     rh[5].0
+000A	77E6	clr     rh[3].7
+000B	0003	ret
+				;296		   GCC_DELAY(100);  //延时待系统稳定
+				_main:
+				_main:
+02EA	0F18	mov     a, 18H
+02EB	23ED	call    L03ED
+				;297		   
+				;298		   Init_clock();   //初始化时钟
+02EC	2160	call    _Init_clock
+				;299	//======================端口初始化==============================//	   
+				;300		   GPIOA_INIT(GPIO_Pin_All,GPIO_Mode_OUT,DISABLE,RESET);
+02ED	5F79	clr     GPIO_Pin
+02EE	5F78	clr     GPIO_BitVal
+02EF	5F77	clr     _Get_AD_2
+02F0	0FFF	mov     a, FFH
+02F1	20ED	call    _GPIOA_INIT
+				;301		   GPIOB_INIT(GPIO_Pin_All,GPIO_Mode_OUT,RESET);
+02F2	5F78	clr     GPIO_BitVal
+02F3	5F77	clr     _Get_AD_2
+02F4	0FFF	mov     a, FFH
+02F5	2106	call    _GPIOB_INIT
+				;302		   GPIOC_INIT(GPIO_Pin_All,GPIO_Mode_OUT,SET);	   
+02F6	0F01	mov     a, 1H
+02F7	40F8	mov     GPIO_BitVal, a
+02F8	5F77	clr     _Get_AD_2
+02F9	0FFF	mov     a, FFH
+02FA	211F	call    _GPIOC_INIT
+				;303		   GPIOD_INIT(GPIO_Pin_All,GPIO_Mode_OUT,SET);
+02FB	0F01	mov     a, 1H
+02FC	40F8	mov     GPIO_BitVal, a
+02FD	5F77	clr     _Get_AD_2
+02FE	0FFF	mov     a, FFH
+02FF	2138	call    _GPIOD_INIT
+				;304	
+				;305	
+				;306		   GPIOB_INIT(GPIO_Pin_3|GPIO_Pin_6,GPIO_Mode_INT,SET);
+0300	0F01	mov     a, 1H
+0301	40F8	mov     GPIO_BitVal, a
+0302	0F01	mov     a, 1H
+0303	40F7	mov     _Get_AD_2, a
+0304	0F48	mov     a, 48H
+0305	2106	call    _GPIOB_INIT
+				;307		   GPIOA_INIT(GPIO_Pin_1,GPIO_Mode_OUT,DISABLE,SET);
+0306	0F01	mov     a, 1H
+0307	40F9	mov     GPIO_Pin, a
+0308	5F78	clr     GPIO_BitVal
+0309	5F77	clr     _Get_AD_2
+030A	0F02	mov     a, 2H
+030B	20ED	call    _GPIOA_INIT
+				;308		   
+				;309		   
+				;310		   
+				;311		   num1=0;
+030C	5F36	clr     num1[0]
+				;312		   num2=1;
+030D	0F01	mov     a, 1H
+030E	40B5	mov     num2[0], a
+				;313		   num3=2;
+030F	0F02	mov     a, 2H
+0310	40B3	mov     num3[0], a
+0311	5F34	clr     num3[1]
+				;314		   num4=10;
+				_L170:
+0312	0F0A	mov     a, AH
+0313	40B1	mov     num4[0], a
+0314	5F32	clr     num4[1]
+				;315		   Digbuff1 =num[num1];   //数码管1显示
+0315	0FCE	mov     a, CEH
+0316	4336	add     a, num1[0]
+0317	0083	mov     MP1, a
+0318	0F81	mov     a, 81H
+0319	1F01	clr     MP0
+031A	1381	adcm    a, MP0
+031B	2417	call    L0417
+031C	40D8	mov     uF4[0], a
+				;316			 Digbuff2 =num[num2];   //数码管2显示
+031D	0FCE	mov     a, CEH
+031E	4335	add     a, num2[0]
+031F	0083	mov     MP1, a
+0320	0F81	mov     a, 81H
+0321	1F01	clr     MP0
+0322	1381	adcm    a, MP0
+0323	2417	call    L0417
+0324	40D7	mov     uF5[0], a
+				;317		 	 Digbuff3 =num[num3];   //数码管3显示
+0325	0FCE	mov     a, CEH
+0326	4333	add     a, num3[0]
+0327	0083	mov     MP1, a
+0328	0F81	mov     a, 81H
+0329	5334	adc     a, num3[1]
+032A	0081	mov     MP0, a
+032B	2417	call    L0417
+032C	40D6	mov     uF6[0], a
+				;318		 	 Digbuff4 =num[num4];   //数码管4显示
+032D	0FCE	mov     a, CEH
+032E	4331	add     a, num4[0]
+032F	0083	mov     MP1, a
+0330	0F81	mov     a, 81H
+0331	5332	adc     a, num4[1]
+0332	0081	mov     MP0, a
+0333	2417	call    L0417
+0334	40D5	mov     uF7[0], a
+				;319	//======================END====================================//
+				;320		   while(1)
+				;321			 {
+				;322			 	GCC_CLRWDT();          //喂狗		 	
+				_L165:
+0335	0001	clr     wdt
+				;323	//=====================数码管更新显示=========================//	
+				;324	      if(t10msflag)
+0336	785B	snz     uF1[0].0
+0337	2B3E	jmp     _L163
+				;325	      {	
+				;326	       t10msflag=0;	  	
+0338	745B	clr     uF1[0].0
+				;327				 AD_NEW = Get_AD();	
+0339	2234	call    _Get_AD
+033A	475C	mov     a, ra
+033B	4088	mov     AD_NEW[0], a
+033C	475D	mov     a, rb
+033D	4089	mov     AD_NEW[1], a
+				;328	      }	
+				;329				if(AD_NEW==AD_Last)
+				_L163:
+033E	4709	mov     a, AD_NEW[1]
+033F	40E5	mov     rh[2], a
+0340	4708	mov     a, AD_NEW[0]
+0341	40E4	mov     rh[1], a
+0342	7468	clr     rh[5].0
+0343	2002	call    L0002
+0344	4766	mov     a, rh[3]
+0345	40E0	mov     re, a
+0346	4765	mov     a, rh[2]
+0347	40DF	mov     rd, a
+0348	4764	mov     a, rh[1]
+0349	40DE	mov     rc, a
+034A	475E	mov     a, rc
+034B	4405	xor     a, AD_Last[0]
+034C	475F	mov     a, rd
+034D	3D0A	sz      Z
+034E	4406	xor     a, AD_Last[1]
+034F	4760	mov     a, re
+0350	3D0A	sz      Z
+0351	4407	xor     a, AD_Last[2]
+0352	3D0A	sz      Z
+0353	2B35	jmp     _L165
+				;330				{
+				;331				 ;	
+				;332				}
+				;333				else
+				;334				{
+				;335					AD_Last = AD_NEW;
+0354	475E	mov     a, rc
+0355	4085	mov     AD_Last[0], a
+0356	475F	mov     a, rd
+0357	4086	mov     AD_Last[1], a
+0358	4760	mov     a, re
+0359	4087	mov     AD_Last[2], a
+				;336					AD_Value=AD_Last*5/4095;
+035A	4760	mov     a, re
+035B	40E6	mov     rh[3], a
+035C	475F	mov     a, rd
+035D	40E5	mov     rh[2], a
+035E	475E	mov     a, rc
+035F	40E4	mov     rh[1], a
+0360	0F40	mov     a, 40H
+0361	40EC	mov     rh[9], a
+0362	0FA0	mov     a, A0H
+0363	40EB	mov     rh[8], a
+0364	0F00	mov     a, 0H
+0365	40EA	mov     rh[7], a
+0366	2010	call    L0010
+0367	4766	mov     a, rh[3]
+0368	40E0	mov     re, a
+0369	4765	mov     a, rh[2]
+036A	40DF	mov     rd, a
+036B	4764	mov     a, rh[1]
+036C	40DE	mov     rc, a
+036D	4760	mov     a, re
+036E	40E6	mov     rh[3], a
+036F	475F	mov     a, rd
+0370	40E5	mov     rh[2], a
+0371	475E	mov     a, rc
+0372	40E4	mov     rh[1], a
+0373	0F45	mov     a, 45H
+0374	40EC	mov     rh[9], a
+0375	0F7F	mov     a, 7FH
+0376	40EB	mov     rh[8], a
+0377	0FF0	mov     a, F0H
+0378	40EA	mov     rh[7], a
+0379	2045	call    L0045
+037A	4766	mov     a, rh[3]
+037B	40E0	mov     re, a
+037C	4765	mov     a, rh[2]
+037D	40DF	mov     rd, a
+037E	4764	mov     a, rh[1]
+037F	40DE	mov     rc, a
+0380	475E	mov     a, rc
+0381	4082	mov     AD_Value[0], a
+0382	475F	mov     a, rd
+0383	4083	mov     AD_Value[1], a
+0384	4760	mov     a, re
+0385	4084	mov     AD_Value[2], a
+				;337					Voltage=(u16)(AD_Value*100);
+0386	4760	mov     a, re
+0387	40E6	mov     rh[3], a
+0388	475F	mov     a, rd
+0389	40E5	mov     rh[2], a
+038A	475E	mov     a, rc
+038B	40E4	mov     rh[1], a
+038C	0F42	mov     a, 42H
+038D	40EC	mov     rh[9], a
+038E	0FC8	mov     a, C8H
+038F	40EB	mov     rh[8], a
+0390	0F00	mov     a, 0H
+0391	40EA	mov     rh[7], a
+0392	2010	call    L0010
+0393	4766	mov     a, rh[3]
+0394	40E0	mov     re, a
+0395	4765	mov     a, rh[2]
+0396	40DF	mov     rd, a
+0397	4764	mov     a, rh[1]
+0398	40DE	mov     rc, a
+0399	5F71	clr     rh[14]
+039A	4760	mov     a, re
+039B	40E6	mov     rh[3], a
+039C	475F	mov     a, rd
+039D	40E5	mov     rh[2], a
+039E	475E	mov     a, rc
+039F	40E4	mov     rh[1], a
+03A0	2077	call    L0077
+03A1	4771	mov     a, rh[14]
+03A2	40E2	mov     rg, a
+03A3	4766	mov     a, rh[3]
+03A4	40E1	mov     rf, a
+03A5	4765	mov     a, rh[2]
+03A6	40E0	mov     re, a
+03A7	4764	mov     a, rh[1]
+03A8	40DF	mov     rd, a
+03A9	475F	mov     a, rd
+03AA	4080	mov     Voltage[0], a
+03AB	4760	mov     a, re
+03AC	4081	mov     Voltage[1], a
+				;338					num1=Voltage/100;
+03AD	5F7D	clr     GPIO_Pin[3]
+03AE	475F	mov     a, rd
+03AF	40F7	mov     _Get_AD_2, a
+03B0	4760	mov     a, re
+03B1	40F8	mov     GPIO_BitVal, a
+03B2	0F64	mov     a, 64H
+03B3	40F9	mov     GPIO_Pin, a
+03B4	5F7A	clr     GPIO_Pin
+03B5	23F1	call    L03F1
+03B6	4777	mov     a, _Get_AD_2
+03B7	40DD	mov     rb, a
+03B8	4778	mov     a, GPIO_BitVal
+03B9	40DE	mov     rc, a
+03BA	475D	mov     a, rb
+03BB	40B6	mov     num1[0], a
+				;339					num2=Voltage/10%10;
+03BC	5F7D	clr     GPIO_Pin[3]
+03BD	475F	mov     a, rd
+03BE	40F7	mov     _Get_AD_2, a
+03BF	4760	mov     a, re
+03C0	40F8	mov     GPIO_BitVal, a
+03C1	0F0A	mov     a, AH
+03C2	40F9	mov     GPIO_Pin, a
+03C3	5F7A	clr     GPIO_Pin
+03C4	23F1	call    L03F1
+03C5	4777	mov     a, _Get_AD_2
+03C6	40DD	mov     rb, a
+03C7	4778	mov     a, GPIO_BitVal
+03C8	40DE	mov     rc, a
+03C9	5F7D	clr     GPIO_Pin[3]
+03CA	475D	mov     a, rb
+03CB	40F7	mov     _Get_AD_2, a
+03CC	475E	mov     a, rc
+03CD	40F8	mov     GPIO_BitVal, a
+03CE	0F0A	mov     a, AH
+03CF	40F9	mov     GPIO_Pin, a
+03D0	5F7A	clr     GPIO_Pin
+03D1	23F1	call    L03F1
+03D2	477B	mov     a, GPIO_Pin[1]
+03D3	40DD	mov     rb, a
+03D4	477C	mov     a, GPIO_Pin[2]
+03D5	40DE	mov     rc, a
+03D6	475D	mov     a, rb
+03D7	40B5	mov     num2[0], a
+				;340					num3=Voltage%10;
+03D8	5F7D	clr     GPIO_Pin[3]
+03D9	475F	mov     a, rd
+03DA	40F7	mov     _Get_AD_2, a
+03DB	4760	mov     a, re
+03DC	40F8	mov     GPIO_BitVal, a
+03DD	0F0A	mov     a, AH
+03DE	40F9	mov     GPIO_Pin, a
+03DF	5F7A	clr     GPIO_Pin
+03E0	23F1	call    L03F1
+03E1	477B	mov     a, GPIO_Pin[1]
+03E2	40B3	mov     num3[0], a
+03E3	477C	mov     a, GPIO_Pin[2]
+03E4	40B4	mov     num3[1], a
+03E5	2B12	jmp     _L170
+03E6	2BE6	jmp     $
+				@dummy .SECTION 'CODE'
+03E7	0000	nop
+03E8	0000	nop
+03E9	0000	nop
+03EA	0000	nop
+03EB	0000	nop
+03EC	0000	nop
+				L03ED:
+03ED	0000	nop
+03EE	1785	sdz     ACC
+03EF	2BED	jmp     L03ED
+03F0	0003	ret
+				L03F1:
+03F1	5F7B	clr     GPIO_Pin[1]
+03F2	5F7C	clr     GPIO_Pin[2]
+03F3	0F10	mov     a, 10H
+03F4	40FE	mov     GPIO_Pin[4], a
+				L03F5:
+03F5	340A	clr     C
+03F6	5AF7	rlc     _Get_AD_2
+03F7	5AF8	rlc     GPIO_BitVal
+03F8	5AFB	rlc     GPIO_Pin[1]
+03F9	5AFC	rlc     GPIO_Pin[2]
+03FA	477B	mov     a, GPIO_Pin[1]
+03FB	4279	sub     a, GPIO_Pin
+03FC	477C	mov     a, GPIO_Pin[2]
+03FD	527A	sbc     a, GPIO_Pin
+03FE	380A	snz     C
+03FF	2C05	jmp     L0405
+0400	40FC	mov     GPIO_Pin[2], a
+0401	477B	mov     a, GPIO_Pin[1]
+0402	4279	sub     a, GPIO_Pin
+0403	40FB	mov     GPIO_Pin[1], a
+0404	54F7	inc     _Get_AD_2
+				L0405:
+0405	57FE	sdz     GPIO_Pin[4]
+0406	2BF5	jmp     L03F5
+0407	787D	snz     GPIO_Pin[3].0
+0408	2C0E	jmp     L040E
+0409	41FB	cpl     GPIO_Pin[1]
+040A	41FC	cpl     GPIO_Pin[2]
+040B	54FB	inc     GPIO_Pin[1]
+040C	3D0A	sz      Z
+040D	54FC	inc     GPIO_Pin[2]
+				L040E:
+040E	78FD	snz     GPIO_Pin[3].1
+040F	2C15	jmp     L0415
+0410	41F7	cpl     _Get_AD_2
+0411	41F8	cpl     GPIO_BitVal
+0412	54F7	inc     _Get_AD_2
+0413	3D0A	sz      Z
+0414	54F8	inc     GPIO_BitVal
+				L0415:
+0415	0003	ret
+				L0416:
+0416	1483	inc     MP1
+				L0417:
+0417	3F81	sz      MP0.7
+0418	2C1D	jmp     L041D
+0419	0701	mov     a, MP0
+041A	0084	mov     BP, a
+041B	0702	mov     a, __iar1[0]
+041C	0003	ret
+				L041D:
+041D	1B01	rrca    MP0
+041E	0E3F	and     a, 3FH
+041F	0089	mov     TBHP, a
+0420	1B03	rrca    MP1
+0421	0087	mov     TBLP, a
+0422	1D05	tabrd   ACC
+0423	3C0A	sz      C
+0424	0708	mov     a, TBLH
+0425	0003	ret
+				L0D66:
+				org	0d66h
+0D66	0000	nop
+				L0F7F:
+				org	0f7fh
+0F7F	0000	nop
+				;341					num4=10;				
+				;342					Digbuff1 =num[num1];   //数码管1显示
+				;343			    Digbuff2 =num[num2];   //数码管2显示
+				;344			 	  Digbuff3 =num[num3];   //数码管3显示
+				;345			 	  Digbuff4 =num[num4];   //数码管4显示
+				;346				}
+				;347	
+				;348	//========================END==================================//
+				;349			 }
+				;350		}
+				data .SECTION 'DATA'
+				__iar1 DB DUP (?) ; __iar1
+				__mp1 DB DUP (?) ; __mp1
+				__bp DB DUP (?) ; __bp
+				__smod DB DUP (?) ; __smod
+				__integ DB DUP (?) ; __integ
+				__intc0 DB DUP (?) ; __intc0
+				__mfi0 DB DUP (?) ; __mfi0
+				__pa DB DUP (?) ; __pa
+				__pac DB DUP (?) ; __pac
+				__papu DB DUP (?) ; __papu
+				__tmpc DB DUP (?) ; __tmpc
+				__wdtc DB DUP (?) ; __wdtc
+				__sadol DB DUP (?) ; __sadol
+				__sadoh DB DUP (?) ; __sadoh
+				__sadc0 DB DUP (?) ; __sadc0
+				__sadc1 DB DUP (?) ; __sadc1
+				__sadc2 DB DUP (?) ; __sadc2
+				__pb DB DUP (?) ; __pb
+				__pbc DB DUP (?) ; __pbc
+				__pbpu DB DUP (?) ; __pbpu
+				__tm0c0 DB DUP (?) ; __tm0c0
+				__tm0c1 DB DUP (?) ; __tm0c1
+				__tm0al DB DUP (?) ; __tm0al
+				__tm0ah DB DUP (?) ; __tm0ah
+				__cpc DB DUP (?) ; __cpc
+				__pc DB DUP (?) ; __pc
+				__pcc DB DUP (?) ; __pcc
+				__pcpu DB DUP (?) ; __pcpu
+				__acerl DB DUP (?) ; __acerl
+				__slcdc0 DB DUP (?) ; __slcdc0
+				__slcdc1 DB DUP (?) ; __slcdc1
+				__slcdc2 DB DUP (?) ; __slcdc2
+				__slcdc3 DB DUP (?) ; __slcdc3
+				__slcdc4 DB DUP (?) ; __slcdc4
+				__pd DB DUP (?) ; __pd
+				__pdc DB DUP (?) ; __pdc
+				__pdpu DB DUP (?) ; __pdpu
+				Voltage DB 2 DUP (?) ; Voltage
+				AD_Value DB 4 DUP (?) ; AD_Value
+				AD_Last DB 4 DUP (?) ; AD_Last
+				AD_NEW DB 2 DUP (?) ; AD_NEW
+				temp1 DB 2 DUP (?) ; temp1
+				temp DB 2 DUP (?) ; temp
+				AD_Mun DB DUP (?) ; AD_Mun
+				ADL DB 2 DUP (?) ; ADL
+				ADH DB 2 DUP (?) ; ADH
+				AD_Count DB 2 DUP (?) ; AD_Count
+				bBbSound DB DUP (?) ; bBbSound
+				bbCnt DB DUP (?) ; bbCnt
+				bbTime DB 2 DUP (?) ; bbTime
+				bbRam DB DUP (?) ; bbRam
+				num8 DB DUP (?) ; num8
+				num7 DB DUP (?) ; num7
+				num6 DB DUP (?) ; num6
+				num5 DB DUP (?) ; num5
+				num4 DB 2 DUP (?) ; num4
+				num3 DB 2 DUP (?) ; num3
+				num2 DB DUP (?) ; num2
+				num1 DB DUP (?) ; num1
+				wei DB DUP (?) ; wei
+				sum1 DB 2 DUP (?) ; sum1
+				sum DB 2 DUP (?) ; sum
+				value DB DUP (?) ; value
+				keystep DB DUP (?) ; keystep
+				step3 DB DUP (?) ; step3
+				step2 DB DUP (?) ; step2
+				step1 DB DUP (?) ; step1
+				step DB DUP (?) ; step
+				data DB DUP (?) ; data
+				t2s DB DUP (?) ; t2s
+				t10s DB DUP (?) ; t10s
+				tms4 DB DUP (?) ; tms4
+				tms3 DB DUP (?) ; tms3
+				tms2 DB DUP (?) ; tms2
+				tms1 DB DUP (?) ; tms1
+				tms DB 2 DUP (?) ; tms
+				bj_second DB DUP (?) ; bj_second
+				bj_min DB DUP (?) ; bj_min
+				peking_min1 DB DUP (?) ; peking_min1
+				peking_second1 DB DUP (?) ; peking_second1
+				peking_second DB DUP (?) ; peking_second
+				peking_min DB DUP (?) ; peking_min
+				peking_hour DB DUP (?) ; peking_hour
+				alarm_second DB DUP (?) ; alarm_second
+				alarm_min DB DUP (?) ; alarm_min
+				alarm_hour DB DUP (?) ; alarm_hour
+				uF7 DB DUP (?) ; uF7
+				uF6 DB DUP (?) ; uF6
+				uF5 DB DUP (?) ; uF5
+				uF4 DB DUP (?) ; uF4
+				uF3 DB DUP (?) ; uF3
+				uF2 DB DUP (?) ; uF2
+				uF1 DB DUP (?) ; uF1
+				ra DB DUP (?)
+				rb DB DUP (?)
+				rc DB DUP (?)
+				rd DB DUP (?)
+				re DB DUP (?)
+				rf DB DUP (?)
+				rg DB DUP (?)
+				rh DB DUP (?)
+				r10c DB DUP (?)
+				r20c DB DUP (?)
+				_isr_TM0_2 DB DUP (?)
+				_Get_AD_2 DB DUP (?)
+				GPIO_BitVal DB DUP (?) ; GPIO_BitVal
+				GPIO_Pin DB DUP (?) ; GPIO_Pin
+				GPIO_Pin DB DUP (?) ; GPIO_Pin

@@ -1,0 +1,283 @@
+
+连接器　版本8.7.3.170508
+Input Object File: F:\HTMCU\MB-T006-HT66F0185\[TEST08] TEST\3KEY.OBJ
+Input Object File: F:\HTMCU\MB-T006-HT66F0185\[TEST08] TEST\STARTUP1_L.OBJ
+
+Input Library File: D:\Program Files\Holtek MCU Development Tools\HT-IDE3000V7.x\LIB\LIBHOLTEKGCC.LIB
+Input Library File: D:\Program Files\Holtek MCU Development Tools\HT-IDE3000V7.x\LIB\v3_tabrd_mrsc.lib
+
+
+     Bank    Start     End      Length     Class    AvgIns    Name
+     00h     0000h     0000h    0001h      CODE               @code (F:\HTMCU\MB-T006-HT66F0185\[TEST08] TEST\3KEY.OBJ)
+     00h     0001h     000bh    000bh      CODE               @crom (F:\HTMCU\MB-T006-HT66F0185\[TEST08] TEST\3KEY.OBJ)
+     00h     000ch     000fh    0004h      CODE               @isr_TM0_code (F:\HTMCU\MB-T006-HT66F0185\[TEST08] TEST\3KEY.OBJ)
+     00h     0010h     0013h    0004h      CODE               @ROMDATA_BASE (F:\HTMCU\MB-T006-HT66F0185\[TEST08] TEST\STARTUP1_L.OBJ)
+     00h     001ch     001fh    0004h      CODE               @isr_TBS0_code (F:\HTMCU\MB-T006-HT66F0185\[TEST08] TEST\3KEY.OBJ)
+     00h     0020h     005ah    003bh      CODE               @start (F:\HTMCU\MB-T006-HT66F0185\[TEST08] TEST\3KEY.OBJ)
+     00h     005bh     0073h    0019h      CODE               _GPIOA_INIT (F:\HTMCU\MB-T006-HT66F0185\[TEST08] TEST\3KEY.OBJ)
+     00h     0074h     008ch    0019h      CODE               _GPIOB_INIT (F:\HTMCU\MB-T006-HT66F0185\[TEST08] TEST\3KEY.OBJ)
+     00h     008dh     00a5h    0019h      CODE               _GPIOC_INIT (F:\HTMCU\MB-T006-HT66F0185\[TEST08] TEST\3KEY.OBJ)
+     00h     00a6h     00beh    0019h      CODE               _GPIOD_INIT (F:\HTMCU\MB-T006-HT66F0185\[TEST08] TEST\3KEY.OBJ)
+     00h     00bfh     00cdh    000fh      CODE               _clr_ram_en (F:\HTMCU\MB-T006-HT66F0185\[TEST08] TEST\3KEY.OBJ)
+     00h     00ceh     00f6h    0029h      CODE               _Init_clock (F:\HTMCU\MB-T006-HT66F0185\[TEST08] TEST\3KEY.OBJ)
+     00h     00f7h     011dh    0027h      CODE               _isr_TBS0 (F:\HTMCU\MB-T006-HT66F0185\[TEST08] TEST\3KEY.OBJ)
+     00h     011eh     01ffh    00e2h      CODE               _isr_TM0 (F:\HTMCU\MB-T006-HT66F0185\[TEST08] TEST\3KEY.OBJ)
+     00h     0200h     023eh    003fh      CODE               _buz_beep (F:\HTMCU\MB-T006-HT66F0185\[TEST08] TEST\3KEY.OBJ)
+     00h     023fh     0273h    0035h      CODE               _key_scal (F:\HTMCU\MB-T006-HT66F0185\[TEST08] TEST\3KEY.OBJ)
+     00h     0274h     036bh    00f8h      CODE               _test_mode (F:\HTMCU\MB-T006-HT66F0185\[TEST08] TEST\3KEY.OBJ)
+     00h     036ch     039dh    0032h      CODE               _main (F:\HTMCU\MB-T006-HT66F0185\[TEST08] TEST\3KEY.OBJ)
+     00h     039eh     03a7h    000ah      CODE               __DELAYX (D:\Program Files\Holtek MCU Development Tools\HT-IDE3000V7.x\LIB\LIBHOLTEKGCC.LIB)
+     00h     03a8h     03cch    0025h      CODE               _builtin_holtek_divmodqi4_isr00 (D:\Program Files\Holtek MCU Development Tools\HT-IDE3000V7.x\LIB\LIBHOLTEKGCC.LIB)
+     00h     03cdh     03f1h    0025h      CODE               _builtin_holtek_divmodhi4_isr00 (D:\Program Files\Holtek MCU Development Tools\HT-IDE3000V7.x\LIB\LIBHOLTEKGCC.LIB)
+     00h     03f2h     0404h    0013h      CODE               _builtin_holtek_mulhi3_isr00 (D:\Program Files\Holtek MCU Development Tools\HT-IDE3000V7.x\LIB\LIBHOLTEKGCC.LIB)
+     00h     0405h     0414h    0010h      CODE               _CROM2PROM (CROM2PROM)
+     00h     0080h     0081h    0002h      DATA     16        @HCCINIT (F:\HTMCU\MB-T006-HT66F0185\[TEST08] TEST\3KEY.OBJ)
+     00h     0082h     00b0h    002fh      DATA     8.1064    @HCCINIT0 (F:\HTMCU\MB-T006-HT66F0185\[TEST08] TEST\3KEY.OBJ)
+     00h     00b1h     00b1h    0001h      DATA     57        @data_ra (D:\Program Files\Holtek MCU Development Tools\HT-IDE3000V7.x\LIB\LIBHOLTEKGCC.LIB)
+     00h     00b2h     00b2h    0001h      DATA     5         @data_rb (D:\Program Files\Holtek MCU Development Tools\HT-IDE3000V7.x\LIB\LIBHOLTEKGCC.LIB)
+     00h     00b3h     00b3h    0001h      DATA     5         @data_rc (D:\Program Files\Holtek MCU Development Tools\HT-IDE3000V7.x\LIB\LIBHOLTEKGCC.LIB)
+     00h     00b4h     00b4h    0001h      DATA     2         @data_r11c (isr:ra~rh)
+     00h     00b5h     00b5h    0001h      DATA     2         @data_r21c (isr:ra~rh)
+     00h     00b6h     00b6h    0001h      DATA     4         @data_ra1c (isr:ra~rh)
+     00h     00b7h     00b7h    0001h      DATA     2         @data_rb1c (isr:ra~rh)
+     00h     00b8h     00b8h    0001h      DATA     2         @data_r10c (isr:ra~rh)
+     00h     00b9h     00b9h    0001h      DATA     2         @data_r20c (isr:ra~rh)
+     00h     00bah     00bah    0001h      DATA     6         @data_ra0c (isr:ra~rh)
+
+     Local Sections
+
+     Bank    Start     End      Length     Class    AvgIns    Name
+     00h     00bdh     00bdh    0000h      LOCAL    0         @dummy28 (F:\HTMCU\MB-T006-HT66F0185\[TEST08] TEST\3KEY.OBJ)
+     00h     00bch     00bch    0001h      LOCAL    3         _isr_TBS0 (F:\HTMCU\MB-T006-HT66F0185\[TEST08] TEST\3KEY.OBJ)
+     00h     00bch     00bch    0000h      LOCAL    0         @dummy12 (F:\HTMCU\MB-T006-HT66F0185\[TEST08] TEST\3KEY.OBJ)
+     00h     00bbh     00bbh    0001h      LOCAL    5         _isr_TM0 (F:\HTMCU\MB-T006-HT66F0185\[TEST08] TEST\3KEY.OBJ)
+     00h     00c6h     00c6h    0000h      LOCAL    0         @dummy (F:\HTMCU\MB-T006-HT66F0185\[TEST08] TEST\3KEY.OBJ)
+     00h     00c6h     00c6h    0000h      LOCAL    0         _main (F:\HTMCU\MB-T006-HT66F0185\[TEST08] TEST\3KEY.OBJ)
+     00h     00bdh     00bdh    0000h      LOCAL    0         __DELAYX (D:\Program Files\Holtek MCU Development Tools\HT-IDE3000V7.x\LIB\LIBHOLTEKGCC.LIB)
+     00h     00beh     00beh    0000h      LOCAL    0         _Init_clock (F:\HTMCU\MB-T006-HT66F0185\[TEST08] TEST\3KEY.OBJ)
+     00h     00bdh     00bdh    0001h      LOCAL    1         _clr_ram_en (F:\HTMCU\MB-T006-HT66F0185\[TEST08] TEST\3KEY.OBJ)
+     00h     00bdh     00c0h    0004h      LOCAL    3.5       _GPIOA_INIT (F:\HTMCU\MB-T006-HT66F0185\[TEST08] TEST\3KEY.OBJ)
+     00h     00bdh     00bfh    0003h      LOCAL    5.3333    _GPIOB_INIT (F:\HTMCU\MB-T006-HT66F0185\[TEST08] TEST\3KEY.OBJ)
+     00h     00bdh     00bfh    0003h      LOCAL    3.3333    _GPIOC_INIT (F:\HTMCU\MB-T006-HT66F0185\[TEST08] TEST\3KEY.OBJ)
+     00h     00bdh     00bfh    0003h      LOCAL    3.3333    _GPIOD_INIT (F:\HTMCU\MB-T006-HT66F0185\[TEST08] TEST\3KEY.OBJ)
+     00h     00c5h     00c5h    0001h      LOCAL    4         _test_mode (F:\HTMCU\MB-T006-HT66F0185\[TEST08] TEST\3KEY.OBJ)
+     00h     00bdh     00bdh    0000h      LOCAL    0         _key_scal (F:\HTMCU\MB-T006-HT66F0185\[TEST08] TEST\3KEY.OBJ)
+     00h     00bdh     00bdh    0000h      LOCAL    0         _buz_beep (F:\HTMCU\MB-T006-HT66F0185\[TEST08] TEST\3KEY.OBJ)
+     00h     00bdh     00c1h    0005h      LOCAL    20.2      _builtin_holtek_divmodqi4_isr00 (D:\Program Files\Holtek MCU Development Tools\HT-IDE3000V7.x\LIB\LIBHOLTEKGCC.LIB)
+     00h     00bdh     00c4h    0008h      LOCAL    6         _builtin_holtek_divmodhi4_isr00 (D:\Program Files\Holtek MCU Development Tools\HT-IDE3000V7.x\LIB\LIBHOLTEKGCC.LIB)
+     00h     00bdh     00c2h    0006h      LOCAL    3.1667    _builtin_holtek_mulhi3_isr00 (D:\Program Files\Holtek MCU Development Tools\HT-IDE3000V7.x\LIB\LIBHOLTEKGCC.LIB)
+     00h     00bdh     00bdh    0000h      LOCAL    0         _Crom2Prom (CROM2PROM)
+
+     Public Symbols Information
+     Address            Public by Name
+     0405h              _Crom2Prom
+     0405h              _Crom2PromNext
+     005bh              _GPIOA_INIT
+     00bdh              _GPIOA_INIT_2
+     0074h              _GPIOB_INIT
+     008dh              _GPIOC_INIT
+     00a6h              _GPIOD_INIT
+     00ceh              _Init_clock
+     03a1h              __DELAYX0
+     03a0h              __DELAYX1
+     03a0h              __DELAYX2
+     039fh              __DELAYX3
+     039fh              __DELAYX4
+     039eh              __DELAYX5
+     039eh              __DELAYX6
+     00a8h              _alarm_hour
+     00a7h              _alarm_min
+     00a6h              _alarm_second
+     0082h              _bBbSound
+     0083h              _bbCnt
+     0086h              _bbRam
+     0084h              _bbTime
+     00a0h              _bj_min
+     009fh              _bj_second
+     03a8h              _builtin_holtek_divmodqi4_isr00
+     03f2h              _builtin_holtek_mulhi3_isr00
+     03cdh              _builtin_holtek_udivmodhi4_isr00
+     00c2h              _builtin_holtek_udivmodhi4_isr00_2
+     03aeh              _builtin_holtek_udivmodqi4_isr00
+     00c1h              _builtin_holtek_udivmodqi4_isr00_2
+     0200h              _buz_beep
+     00bfh              _clr_ram_en
+     0096h              _data
+     00f7h              _isr_TBS0
+     011eh              _isr_TM0
+     023fh              _key_scal
+     0091h              _keystep
+     036ch              _main
+     0081h              _num1
+     0080h              _num2
+     0089h              _num3
+     0087h              _num4
+     00a5h              _peking_hour
+     00a4h              _peking_min
+     00a1h              _peking_min1
+     00a3h              _peking_second
+     00a2h              _peking_second1
+     0095h              _step
+     0094h              _step1
+     0093h              _step2
+     0092h              _step3
+     008eh              _sum
+     008ch              _sum1
+     0098h              _t10s
+     0097h              _t2s
+     0274h              _test_mode
+     009dh              _tms
+     009ch              _tms1
+     009bh              _tms2
+     009ah              _tms3
+     0099h              _tms4
+     00b0h              _uF1
+     00afh              _uF2
+     00aeh              _uF3
+     00adh              _uF4
+     00ach              _uF5
+     00abh              _uF6
+     00aah              _uF7
+     00a9h              _uF8
+     0090h              _value
+     008bh              _wei
+     00b8h              r10c
+     00b4h              r11c
+     00b9h              r20c
+     00b5h              r21c
+     00b1h              ra
+     00bah              ra0c
+     00b6h              ra1c
+     00b2h              rb
+     00b7h              rb1c
+     00b3h              rc
+     0010h              startup_value_1
+
+     Address            Public by Value
+     0010h              startup_value_1
+     005bh              _GPIOA_INIT
+     0074h              _GPIOB_INIT
+     0080h              _num2
+     0081h              _num1
+     0082h              _bBbSound
+     0083h              _bbCnt
+     0084h              _bbTime
+     0086h              _bbRam
+     0087h              _num4
+     0089h              _num3
+     008bh              _wei
+     008ch              _sum1
+     008dh              _GPIOC_INIT
+     008eh              _sum
+     0090h              _value
+     0091h              _keystep
+     0092h              _step3
+     0093h              _step2
+     0094h              _step1
+     0095h              _step
+     0096h              _data
+     0097h              _t2s
+     0098h              _t10s
+     0099h              _tms4
+     009ah              _tms3
+     009bh              _tms2
+     009ch              _tms1
+     009dh              _tms
+     009fh              _bj_second
+     00a0h              _bj_min
+     00a1h              _peking_min1
+     00a2h              _peking_second1
+     00a3h              _peking_second
+     00a4h              _peking_min
+     00a5h              _peking_hour
+     00a6h              _alarm_second
+     00a6h              _GPIOD_INIT
+     00a7h              _alarm_min
+     00a8h              _alarm_hour
+     00a9h              _uF8
+     00aah              _uF7
+     00abh              _uF6
+     00ach              _uF5
+     00adh              _uF4
+     00aeh              _uF3
+     00afh              _uF2
+     00b0h              _uF1
+     00b1h              ra
+     00b2h              rb
+     00b3h              rc
+     00b4h              r11c
+     00b5h              r21c
+     00b6h              ra1c
+     00b7h              rb1c
+     00b8h              r10c
+     00b9h              r20c
+     00bah              ra0c
+     00bdh              _GPIOA_INIT_2
+     00bfh              _clr_ram_en
+     00c1h              _builtin_holtek_udivmodqi4_isr00_2
+     00c2h              _builtin_holtek_udivmodhi4_isr00_2
+     00ceh              _Init_clock
+     00f7h              _isr_TBS0
+     011eh              _isr_TM0
+     0200h              _buz_beep
+     023fh              _key_scal
+     0274h              _test_mode
+     036ch              _main
+     039eh              __DELAYX6
+     039eh              __DELAYX5
+     039fh              __DELAYX4
+     039fh              __DELAYX3
+     03a0h              __DELAYX2
+     03a0h              __DELAYX1
+     03a1h              __DELAYX0
+     03a8h              _builtin_holtek_divmodqi4_isr00
+     03aeh              _builtin_holtek_udivmodqi4_isr00
+     03cdh              _builtin_holtek_udivmodhi4_isr00
+     03f2h              _builtin_holtek_mulhi3_isr00
+     0405h              _Crom2Prom
+     0405h              _Crom2PromNext
+
+
+ROM Usage Statistics
+     Size      Used     Percentage
+     1000h     040dh    25%
+
+RAM Usage Statistics
+    Bank      Size      Used     Percentage
+     00h       0080h     0046h    54%
+     01h       0080h     0000h    0%
+     Total     0100h     0046h    27%
+
+Use Stack Count
+_isr_TBS0: 0
+_isr_TM0: 0
+_process_set: 1
+_main: 2
+
+Call Tree
+    @dummy28
+        _isr_TBS0 (0)
+    @dummy12
+        _isr_TM0 (0)
+    _process_set
+        _builtin_holtek_divmodqi4_isr00 (0)
+    @dummy
+        _main (0)
+            __DELAYX (1)
+            _Init_clock (1)
+                _clr_ram_en (2)
+            _GPIOA_INIT (1)
+            _GPIOB_INIT (1)
+            _GPIOC_INIT (1)
+            _GPIOD_INIT (1)
+            _test_mode (1)
+                _key_scal (2)
+                _buz_beep (2)
+                _builtin_holtek_divmodqi4_isr00 (2)
+                _builtin_holtek_divmodhi4_isr00 (2)
+                _builtin_holtek_mulhi3_isr00 (2)
+                _Crom2Prom (2)
+
+HLINK : 程序的开始执行点在程序段'@code'（地址0）。定义在'F:\HTMCU\MB-T006-HT66F0185\[TEST08] TEST\3KEY.OBJ' 文件中
+
+错误总数 : 0  警告总数 : 0
